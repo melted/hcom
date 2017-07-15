@@ -309,12 +309,12 @@ dispatchInvoke( IDispatch* obj, DISPID dispid, LCID lcid,
                 VARIANT* args, VARIANT* argsout,
                 EXCEPINFO** info );
 
-extern
-HRESULT
-STDCALL
-SafeArrayDestroy
- 	( /*[in]*/SAFEARRAY* psa 
-	);
+// extern
+// HRESULT
+// STDCALL
+// SafeArrayDestroy
+//  	( /*[in]*/SAFEARRAY* psa 
+// 	);
 
 extern HRESULT primCopyVARIANT  ( VARIANT* p1, VARIANT* p2 );
 extern HRESULT primVARIANTClear ( VARIANT* p1 );

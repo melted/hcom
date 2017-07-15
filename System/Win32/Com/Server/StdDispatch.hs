@@ -391,17 +391,17 @@ invoke dispMeth this dispIdMember riid lcid wFlags pDispParams
           args  = unsafePerformIO (unmarshallArgs (castPtr pDispParams))
       st  <- getObjState this
       catchComException (do
-        res <- dispMeth dispIdMember mkind args st
-        case res of 
-          Nothing -> do
-            if pVarResult == nullPtr then
-              return ()
-             else
-              poke pVarResult nullPtr
-          Just x  -> do
---            putMessage ("Invoke: " ++ show dispIdMember ++ " interested")
-              writeVARIANT pVarResult x
-              return s_OK) 
+          res <- dispMeth dispIdMember mkind args st
+          case res of 
+            Nothing -> do
+              if pVarResult == nullPtr then
+                return ()
+               else
+                poke pVarResult nullPtr
+            Just x  -> do
+--              putMessage ("Invoke: " ++ show dispIdMember ++ " interested")
+                writeVARIANT pVarResult x
+          return s_OK) 
        (\ err -> 
           case coGetErrorHR err of
             Nothing -> do
@@ -414,7 +414,7 @@ invoke dispMeth this dispIdMember riid lcid wFlags pDispParams
               -- ToDo: a lot better.
               if pExcepInfo == nullPtr then
                 return hr
-              else do
+               else do
                 poke (castPtr pExcepInfo) nullPtr
                 return hr)
         

@@ -504,18 +504,18 @@ extern void STDCALL SysFreeString(BSTR bstr);
 extern UINT STDCALL SysStringLen(BSTR bstr);
 #endif
 
-extern
-HRESULT
-STDCALL
-MkParseDisplayName( IBindCtx* pbc
-		  , LPCOLESTR szUserName
-		  , unsigned long* eatern
-		  , IMoniker** ppmk);
+// extern
+// HRESULT
+// STDCALL
+// MkParseDisplayName( IBindCtx* pbc
+// 		  , LPCOLESTR szUserName
+// 		  , unsigned long* eatern
+// 		  , IMoniker** ppmk);
 
-extern
-HRESULT
-STDCALL
-CreateBindCtx (DWORD reserved, IBindCtx** ppbc);
+// extern
+// HRESULT
+// STDCALL
+// CreateBindCtx (DWORD reserved, IBindCtx** ppbc);
 
 #if __W32API_MAJOR_VERSION == 1
 extern

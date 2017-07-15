@@ -46,6 +46,8 @@ import Data.Word
 import Data.Int
 import System.Win32.Com.Exception
 
+import Control.Exception
+
 type ThisPtr = Ptr (IUnknown ())
 
 mkConnectionContainer :: [(IID (IUnknown ()), IORef [(Word32, IUnknown ())])]
@@ -128,7 +130,9 @@ advise sinks cookie_ref iid this pUnkSink pdwCookie = do
         writeIORef sinks ((cookie,castIface ip2):ls)
         writeWord32 pdwCookie cookie
         return s_OK
-   )(\ _ -> return cONNECT_E_CANNOTCONNECT)
+   )(\ e -> do
+    p <- return $ show (e :: SomeException)
+    return cONNECT_E_CANNOTCONNECT)
 
 foreign import stdcall "wrapper"
    export_adv :: (ThisPtr -> PrimIP () -> Ptr Word32 -> IO HRESULT)
