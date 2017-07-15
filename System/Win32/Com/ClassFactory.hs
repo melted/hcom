@@ -12,11 +12,11 @@
 -- 
 -----------------------------------------------------------------------------
 module System.Win32.Com.ClassFactory 
-	(
-	  createClassFactory -- :: (IID a -> IO (PrimIP a)) -> IO (PrimIP ())
+  (
+    createClassFactory -- :: (IID a -> IO (PrimIP a)) -> IO (PrimIP ())
 
         , iidIClassFactory
-	) where
+  ) where
 
 import System.Win32.Com
 import System.Win32.Com.Server hiding ( createInstance )
@@ -28,7 +28,7 @@ import Data.IORef       ( IORef, newIORef, readIORef, writeIORef )
 data ClassFactory a
  = ClassFactory {
          new_instance :: (IID (IUnknown ()) -> IO (IUnknown ())),
-	 lockCount    :: (IORef Int)
+   lockCount    :: (IORef Int)
    }
 
 type IClassFactory a = IUnknown (ClassFactory a)
@@ -42,9 +42,9 @@ iidIClassFactory = mkIID "{00000001-0000-0000-C000-000000000046}"
 
 createInstance :: This_ClassFactory 
                -> Ptr (IUnknown a)
-	       -> Ptr (IID (IUnknown ()))
-	       -> Ptr (Ptr (IUnknown b))
-	       -> IO HRESULT
+         -> Ptr (IID (IUnknown ()))
+         -> Ptr (Ptr (IUnknown b))
+         -> IO HRESULT
 createInstance this punkOuter riid ppv
  | punkOuter /= nullPtr = return cLASS_E_NOAGGREGATION
  | otherwise            = do
@@ -78,14 +78,14 @@ foreign import stdcall "wrapper"
                          -> IO (Ptr (Ptr (IUnknown a) -> Int -> IO HRESULT))
 
 createClassFactory :: (IID (IUnknown ()) -> IO (IUnknown ()))
-		   -> IO (IClassFactory ())
+       -> IO (IClassFactory ())
 createClassFactory mkInst = do
    lcount <- newIORef 0
    let cf_state = ClassFactory mkInst lcount
    createComInstance ""
                      cf_state (return ())
-		     [mkIface iidIClassFactory iClassFactory_vtbl]
-		     iidIClassFactory
+         [mkIface iidIClassFactory iClassFactory_vtbl]
+         iidIClassFactory
  where
   guidIClassFactory = iidToGUID iidIClassFactory
 

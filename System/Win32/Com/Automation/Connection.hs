@@ -148,7 +148,7 @@ enumConnectionPoints iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_Connection_enumConnectionPoints methPtr iptr ppEnum) 3 iptr
     doThenFree free (readIUnknown False) ppEnum
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_enumConnectionPoints :: Ptr () -> Ptr () -> Ptr (Ptr (IEnumConnectionPoints a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_enumConnectionPoints :: Ptr (Ptr () -> Ptr (Ptr (IEnumConnectionPoints a)) -> IO Int32) -> Ptr () -> Ptr (Ptr (IEnumConnectionPoints a)) -> IO Int32
 findConnectionPoint :: IID a1
                     -> IConnectionPointContainer a0
                     -> IO (IConnectionPoint ())
@@ -159,7 +159,7 @@ findConnectionPoint riid iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr riid (\ riid -> prim_System_Win32_Com_Automation_Connection_findConnectionPoint methPtr iptr riid ppCP)) 4 iptr
     doThenFree free (readIUnknown False) ppCP
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_findConnectionPoint :: Ptr () -> Ptr () -> Ptr (IID a) -> Ptr (Ptr (IConnectionPoint a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_findConnectionPoint :: Ptr (Ptr () -> Ptr (IID a) -> Ptr (Ptr (IConnectionPoint a)) -> IO Int32) -> Ptr () -> Ptr (IID a) -> Ptr (Ptr (IConnectionPoint a)) -> IO Int32
 -- --------------------------------------------------
 -- 
 -- interface IEnumConnections

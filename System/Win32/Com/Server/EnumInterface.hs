@@ -13,12 +13,12 @@
 -- 
 -----------------------------------------------------------------------------
 module System.Win32.Com.Server.EnumInterface 
-	( 
-	  mkEnumInterface  -- :: [a]
-			   -- -> Int
-			   -- -> (Ptr a -> a -> IO ())
-			   -- -> IO (ComVTable iid objState)
-	) where
+  ( 
+    mkEnumInterface  -- :: [a]
+         -- -> Int
+         -- -> (Ptr a -> a -> IO ())
+         -- -> IO (ComVTable iid objState)
+  ) where
 
 import Data.Word
 import Data.Int
@@ -47,9 +47,9 @@ shared by the different methods and create a method table
 containing them:
 -}
 mkEnumInterface :: [a]
-	        -> Int
-		-> (Ptr (Ptr a) -> a -> IO ())
-		-> IO (ComVTable iid objState)
+          -> Int
+    -> (Ptr (Ptr a) -> a -> IO ())
+    -> IO (ComVTable iid objState)
 mkEnumInterface ls sizeof write = do
   ref <- newIORef (ls, length ls)
   let st = EnumState ref ls write sizeof
@@ -65,15 +65,15 @@ i.e., it doesn't wrap around (but you can rewind the enumeration
 back to the beginning with IEnum::Reset()):
 -}
 enumNext :: EnumState a
-	 -> ThisPtr
-	 -> Word32
-	 -> Ptr (Ptr a)
-	 -> Ptr Word32
-	 -> IO HRESULT
+   -> ThisPtr
+   -> Word32
+   -> Ptr (Ptr a)
+   -> Ptr Word32
+   -> IO HRESULT
 enumNext st this c pFetched pcFetched 
   | pcFetched == nullPtr && c /= 1 = return e_INVALIDARG
-  | pFetched == nullPtr 	   = return e_POINTER
-  | otherwise			   = do
+  | pFetched == nullPtr      = return e_POINTER
+  | otherwise         = do
      let ref = elt st
      (elts, eltsLeft) <- readIORef ref
      let
@@ -103,9 +103,9 @@ foreign import stdcall "wrapper"
                        -> IO (Ptr (ThisPtr -> Word32 -> Ptr a -> Ptr Word32 -> IO HRESULT))
 
 enumSkip :: EnumState a
-	 -> ThisPtr
-	 -> Word32
-	 -> IO HRESULT
+   -> ThisPtr
+   -> Word32
+   -> IO HRESULT
 enumSkip st this c
   | c == 0     = return e_INVALIDARG
   | otherwise  = do
@@ -126,8 +126,8 @@ foreign import stdcall "wrapper"
    export_enumSkip :: (ThisPtr -> Word32 -> IO HRESULT) -> IO (Ptr (ThisPtr -> Word32 -> IO HRESULT))
 
 enumReset :: EnumState a
-	  -> ThisPtr
-	  -> IO HRESULT
+    -> ThisPtr
+    -> IO HRESULT
 enumReset st _ = do
   let ls = origElts st
   writeIORef (elt st) (ls, length ls)
@@ -137,9 +137,9 @@ foreign import stdcall "wrapper"
    export_enumReset :: (ThisPtr -> IO HRESULT) -> IO (Ptr (ThisPtr -> IO HRESULT))
 
 enumClone :: EnumState a
-	  -> ThisPtr
-	  -> Ptr (Ptr (IUnknown b))
-	  -> IO HRESULT
+    -> ThisPtr
+    -> Ptr (Ptr (IUnknown b))
+    -> IO HRESULT
 enumClone st this out = do
    vtbl <- mkEnumInterface (origElts st) (sizeof st) (writeElt st)
    ip   <- cloneIPointer_prim this vtbl

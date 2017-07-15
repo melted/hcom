@@ -14,73 +14,73 @@
 module System.Win32.Com
     (
       -- base COM interface, IUnknown:
-      IUnknown_ 	-- abstract, instance of: Eq, Show.
-    , IUnknown		
-    , iidIUnknown	-- :: IID (IUnknown ())
+      IUnknown_   -- abstract, instance of: Eq, Show.
+    , IUnknown    
+    , iidIUnknown  -- :: IID (IUnknown ())
     
     , interfaceNULL, isNullInterface, iidNULL
 
       -- its methods:
-    , queryInterface	 -- :: IID (IUnknown b) -> IUnknown a -> IO (IUnknown b)
-    , addRef		 -- :: IUnknown a -> IO Word32
-    , release		 -- :: IUnknown a -> IO Word32
+    , queryInterface -- :: IID (IUnknown b) -> IUnknown a -> IO (IUnknown b)
+    , addRef -- :: IUnknown a -> IO Word32
+    , release     -- :: IUnknown a -> IO Word32
     , withQueryInterface -- :: IID (IUnknown b) -> IUnknown a -> (IUnknown b -> IO c) -> IO c
 
       -- helpful operators:
-    , ( # )		-- :: a -> (a -> IO b) -> IO b
-    , ( ## )		-- :: IO a -> (a -> IO b) -> IO b
+    , ( # )    -- :: a -> (a -> IO b) -> IO b
+    , ( ## )    -- :: IO a -> (a -> IO b) -> IO b
 
 
       -- setting up and shutting down.
-    , coRun		  -- :: IO a -> IO a
+    , coRun      -- :: IO a -> IO a
     , coPerformIO         -- :: IO a -> IO a
     , coUnsafePerformIO   -- :: IO a -> a
-    , coInitialize	  -- :: IO ()
-    , coUnInitialize	  -- :: IO ()
+    , coInitialize    -- :: IO ()
+    , coUnInitialize    -- :: IO ()
     
       -- GUID API:
-    , GUID		-- abstract, instance of: Eq, Show
-    , mkGUID		-- :: String -> GUID
+    , GUID    -- abstract, instance of: Eq, Show
+    , mkGUID    -- :: String -> GUID
     , newGUID           -- :: IO GUID
-    , stringToGUID	-- :: String -> IO GUID
-    , guidToString	-- :: GUID   -> String
-    , nullGUID		-- :: GUID
+    , stringToGUID  -- :: String -> IO GUID
+    , guidToString  -- :: GUID   -> String
+    , nullGUID    -- :: GUID
 
       -- IID API:
-    , IID		-- abstract, instance of: Eq, Show
-    , mkIID		-- :: String -> IID a
-    , stringToIID	-- :: String -> IO (IID a)
-    , guidToIID		-- :: GUID   -> IID a
-    , iidToGUID		-- :: IID a  -> GUID
+    , IID    -- abstract, instance of: Eq, Show
+    , mkIID    -- :: String -> IID a
+    , stringToIID  -- :: String -> IO (IID a)
+    , guidToIID    -- :: GUID   -> IID a
+    , iidToGUID    -- :: IID a  -> GUID
     , castIID           -- :: IID a  -> IID b
 
       -- CLSID API:
-    , CLSID		 -- abstract, instance of: Eq, Show
-    , mkCLSID		 -- :: String -> CLSID
-    , stringToCLSID	 -- :: String -> IO CLSID
-    , guidToCLSID	 -- :: GUID   -> CLSID
-    , clsidToGUID	 -- :: CLSID  -> GUID
+    , CLSID     -- abstract, instance of: Eq, Show
+    , mkCLSID     -- :: String -> CLSID
+    , stringToCLSID   -- :: String -> IO CLSID
+    , guidToCLSID   -- :: GUID   -> CLSID
+    , clsidToGUID   -- :: CLSID  -> GUID
     , clsidToDisplayName -- :: CLSID  -> String
 
       -- LIBID
-    , LIBID		-- (a guid)
+    , LIBID    -- (a guid)
     , mkLIBID           -- :: String -> LIBID
 
       -- HRESULT API:
     , HRESULT
-    , s_FALSE		-- :: HRESULT
-    , s_OK		-- :: HRESULT
-    , succeeded	        -- :: HRESULT -> Bool
-    , failed	        -- :: HRESULT -> Bool
-    , checkHR		-- :: HRESULT -> IO ()
-    , checkBool		-- :: Int32   -> IO ()
-    , returnHR		-- :: IO ()   -> IO HRESULT
-    , coFailHR		-- :: HRESULT -> IO a
-    , coFailWithHR	-- :: HRESULT -> String  -> IO 
-    , coAssert		-- :: Bool    -> String -> IO ()
-    , coOnFail		-- :: IO a    -> String -> IO a
-    , coFail		-- :: String  -> IO a
-    , isCoError		-- :: IOError -> Bool
+    , s_FALSE    -- :: HRESULT
+    , s_OK    -- :: HRESULT
+    , succeeded          -- :: HRESULT -> Bool
+    , failed          -- :: HRESULT -> Bool
+    , checkHR    -- :: HRESULT -> IO ()
+    , checkBool    -- :: Int32   -> IO ()
+    , returnHR    -- :: IO ()   -> IO HRESULT
+    , coFailHR    -- :: HRESULT -> IO a
+    , coFailWithHR  -- :: HRESULT -> String  -> IO 
+    , coAssert    -- :: Bool    -> String -> IO ()
+    , coOnFail    -- :: IO a    -> String -> IO a
+    , coFail    -- :: String  -> IO a
+    , isCoError    -- :: IOError -> Bool
     , coGetErrorHR      -- :: IOError -> HRESULT
     , coGetErrorString  -- :: IOError -> String
     , hresultToString   -- :: HRESULT -> IO String
@@ -92,7 +92,7 @@ module System.Win32.Com
 
       -- component creation:
     , coCreateInstance -- :: CLSID -> Maybe (IUnknown b) -> CLSCTX
-		       -- -> IID (IUnknown a) -> IO (IUnknown a)
+           -- -> IID (IUnknown a) -> IO (IUnknown a)
     , coCreateObject
     , coGetObject
     , coGetActiveObject
@@ -123,7 +123,7 @@ module System.Win32.Com
     , isWindowsNT          -- :: OSVersionInfo -> Bool
     , isWindows95          -- :: OSVersionInfo -> Bool
     , isWindows98          -- :: OSVersionInfo -> Bool
-    , versionInfo	   -- :: OSVersionInfo
+    , versionInfo     -- :: OSVersionInfo
 
     , ifaceToAddr
     
@@ -163,24 +163,24 @@ module System.Win32.Com
     , freeWideString
     
       -- marshallers
-    , marshallGUID	-- :: GUID -> IO (ForeignPtr GUID)
-    , unmarshallGUID	-- :: Bool -> Ptr GUID -> IO GUID
+    , marshallGUID  -- :: GUID -> IO (ForeignPtr GUID)
+    , unmarshallGUID  -- :: Bool -> Ptr GUID -> IO GUID
     , writeGUID
     , readGUID
     , copyGUID
     , sizeofGUID
     
       -- marshallers
-    , marshallIID	-- :: GUID -> IO (ForeignPtr GUID)
-    , unmarshallIID	-- :: Bool -> Ptr GUID -> IO GUID
+    , marshallIID  -- :: GUID -> IO (ForeignPtr GUID)
+    , unmarshallIID  -- :: Bool -> Ptr GUID -> IO GUID
     , writeIID
     , readIID
     , sizeofIID
     , copyIID
     
       -- marshallers
-    , marshallCLSID	-- :: CLSID -> IO (ForeignPtr CLSID)
-    , unmarshallCLSID	-- :: Bool -> Ptr CLSID -> IO GUID
+    , marshallCLSID  -- :: CLSID -> IO (ForeignPtr CLSID)
+    , unmarshallCLSID  -- :: Bool -> Ptr CLSID -> IO GUID
     , writeCLSID
     , readCLSID
     , sizeofCLSID
@@ -205,13 +205,13 @@ module System.Win32.Com
 
 import System.Win32.Com.Exception
 import System.Win32.Com.Base 
-	       hiding ( coCreateInstance, loadTypeLib, messageBox,
-			loadTypeLibEx, loadRegTypeLib, coCreateInstanceEx
-		      )
+         hiding ( coCreateInstance, loadTypeLib, messageBox,
+      loadTypeLibEx, loadRegTypeLib, coCreateInstanceEx
+          )
 import qualified System.Win32.Com.Base as Base
-		      ( coCreateInstance, loadTypeLib, messageBox,
-			   loadTypeLibEx, loadRegTypeLib, coCreateInstanceEx
-		      )
+          ( coCreateInstance, loadTypeLib, messageBox,
+         loadTypeLibEx, loadRegTypeLib, coCreateInstanceEx
+          )
 import System.Win32.Com.HDirect.HDirect
 import System.Win32.Com.HDirect.Pointer hiding ( freeBSTR )
 import qualified System.Win32.Com.HDirect.Pointer as P ( freeBSTR )
@@ -281,10 +281,10 @@ iidIPersistFile       = mkIID "{0000010B-0000-0000-C000-000000000046}"
 -- @
 --
 coCreateInstance :: CLSID 
-		 -> Maybe (IUnknown b)  
-		 -> CLSCTX 
-		 -> IID (IUnknown a) 
-		 -> IO (IUnknown a)
+     -> Maybe (IUnknown b)  
+     -> CLSCTX 
+     -> IID (IUnknown a) 
+     -> IO (IUnknown a)
 coCreateInstance clsid inner context iid = do
   ppvObject <- allocOutPtr
   clsid     <- marshallCLSID clsid
@@ -292,15 +292,15 @@ coCreateInstance clsid inner context iid = do
   let ctxt   = fromEnum context
   iid       <- marshallIID iid
   Base.coCreateInstance (castForeignPtr clsid) inner (fromIntegral ctxt)
-  			   (castForeignPtr iid) ppvObject
+           (castForeignPtr iid) ppvObject
   doThenFree free (readIUnknown False{-finalise only-}) ppvObject
 
 coCreateInstanceEx :: CLSID 
-		   -> Maybe (IUnknown b)  
-		   -> CLSCTX 
-		   -> Maybe COSERVERINFO
-		   -> IID (IUnknown a) 
-		   -> IO (IUnknown a)
+       -> Maybe (IUnknown b)  
+       -> CLSCTX 
+       -> Maybe COSERVERINFO
+       -> IID (IUnknown a) 
+       -> IO (IUnknown a)
 coCreateInstanceEx clsid pUnkOuter context mbServ iid = do
   clsid     <- marshallCLSID clsid
   pUnkOuter <- marshallInner pUnkOuter
@@ -396,9 +396,8 @@ coPerformIO :: IO a -> IO a
 coPerformIO io =
  catchComException io
        ( \ err -> do 
-	    putMessage (coGetErrorString err)
-            throwIOComException err 
-       )
+            putMessage (coGetErrorString err)
+            throwIOComException err)
 
 coUnsafePerformIO :: IO a -> a
 coUnsafePerformIO = unsafePerformIO . coPerformIO
@@ -410,19 +409,19 @@ printMessage x = putMessage (show x)
 -- | @putMessage str@ displays @str@ in an informational message box containing an OK button.
 putMessage :: String -> IO ()
 putMessage msg = 
-	stackString msg               $ \ _ m -> 
-	stackString "Haskell message" $ \ _ t -> 
-	Base.messageBox m t 0x40040
-	  {- To mere mortals, that's MB_OK | MB_ICONINFORMATION | MB_TOPMOST :-) -}
+  stackString msg               $ \ _ m -> 
+  stackString "Haskell message" $ \ _ t -> 
+  Base.messageBox m t 0x40040
+    {- To mere mortals, that's MB_OK | MB_ICONINFORMATION | MB_TOPMOST :-) -}
 
 -- | @messageBox msg title flg@ displays a message box with the given title and content.
 -- The @flg@ parameter is the bit pattern that makes up the @MB_*@ settings you want
 -- to use (cf. underlying Win32 API documentation for @MessageBox@.)
 messageBox :: String -> String -> Word32 -> IO ()
 messageBox msg title flg = 
-	stackString msg             $ \ _ m -> 
-	stackString title           $ \ _ t -> 
-	Base.messageBox m t flg
+  stackString msg             $ \ _ m -> 
+  stackString title           $ \ _ t -> 
+  Base.messageBox m t flg
 
 -- | @outputDebugString str@ adds an 
 outputDebugString :: String -> IO ()
@@ -636,7 +635,7 @@ clsidFromProgID progid =
    stackString progid $ \ _ pprogid -> do
      pclsid  <- coAlloc sizeofCLSID
      coOnFail (primCLSIDFromProgID pprogid (castPtr pclsid))
-     	      ("Component '" ++ progid ++ "' is unknown")
+             ("Component '" ++ progid ++ "' is unknown")
      unmarshallCLSID True pclsid
 
 -- | @progIDFromCLSID cid@ is the dual @clsidFromProgID@, attempting to translate
@@ -722,9 +721,9 @@ release :: IUnknown a -> IO Word32
 release iptr = invokeIt (\ methPtr ip -> primRelease methPtr ip) 2 iptr
 
 withQueryInterface :: IID (IUnknown b)
-	           -> IUnknown a
-	           -> (IUnknown b -> IO c)
-	           -> IO c
+             -> IUnknown a
+             -> (IUnknown b -> IO c)
+             -> IO c
 withQueryInterface iid unk action 
  = bracket (queryInterface iid unk) release action
 
@@ -736,7 +735,7 @@ persistfileLoad iptr pszFileName dwMode =
 -- | @GUID@ is the Haskell representation for COM GUIDs. 
 newtype GUID     = GUID (ForeignPtr ()) --(Pointer Guid)
 
-data Guid	 = Guid
+data Guid   = Guid
 
 mkGUID :: String -> GUID
 mkGUID str = unsafePerformIO (stringToGUID str)
@@ -827,9 +826,9 @@ guidToString ptr = unsafePerformIO (stringFromGUID ptr)
 -- to ensure that the @IID@ passed to @QueryInterface@ agrees with
 -- the interface at which we're using the interface pointer that's
 -- returned
-newtype IID a	= IID GUID   deriving ( Eq )
+newtype IID a  = IID GUID   deriving ( Eq )
 
-newtype CLSID	= CLSID GUID deriving ( Eq )
+newtype CLSID  = CLSID GUID deriving ( Eq )
 
 mkIID   :: String -> IID a
 mkIID str   = IID (mkGUID str)
@@ -950,7 +949,7 @@ unmarshallIUnknownFO i = return (Unknown (castForeignPtr i))
 
 {-
   addRefMe == True  => attach finaliser (which calls Release()), and
-  		       call addRef on i-pointer before returning.
+             call addRef on i-pointer before returning.
            == False => attach finaliser (which calls Release()) only.
 
   The former case is used when you receive an i-pointer from the outside
@@ -1005,14 +1004,14 @@ loadRegTypeLib guid maj min lcid = do
     ptr     <- allocOutPtr
     p_guid  <- marshallGUID guid
     Base.loadRegTypeLib (castForeignPtr p_guid)
-    			   (fromIntegral maj) (fromIntegral min)
-			   (fromIntegral lcid) ptr
+             (fromIntegral maj) (fromIntegral min)
+         (fromIntegral lcid) ptr
     doThenFree free (readIUnknown False{-finalise only-}) ptr
 
 queryPathOfRegTypeLib :: GUID
-		      -> Word16
-		      -> Word16
-		      -> IO String
+          -> Word16
+          -> Word16
+          -> IO String
 queryPathOfRegTypeLib gd maj min = do
     pgd   <- marshallGUID gd
     pbstr <- primQueryPathOfRegTypeLib (castForeignPtr pgd) maj min
@@ -1020,8 +1019,8 @@ queryPathOfRegTypeLib gd maj min = do
         return ""
       else do
         str <- unmarshallBSTR (castPtr pbstr)
-	freeBSTR pbstr
-	return str
+        freeBSTR pbstr
+        return str
 
 createTypeLib :: String -> IO (IUnknown a) --(ICreateTypeLib a)
 createTypeLib nm = do

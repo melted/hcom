@@ -1,17 +1,17 @@
 module System.Win32.Com.Server.ClassInfo
          (
-	   mkIProvideClassInfo
-	 , mkIProvideClassInfo2
+       mkIProvideClassInfo
+     , mkIProvideClassInfo2
 
-	 , IProvideClassInfo(..)
-	 , IProvideClassInfo_
-	 , iidIProvideClassInfo
+     , IProvideClassInfo(..)
+     , IProvideClassInfo_
+     , iidIProvideClassInfo
 
-	 , IProvideClassInfo2(..)
-	 , IProvideClassInfo2_
-	 , iidIProvideClassInfo2
+     , IProvideClassInfo2(..)
+     , IProvideClassInfo2_
+     , iidIProvideClassInfo2
 
-	 ) where
+     ) where
 
 import System.Win32.Com
 import Data.Word ( Word32 )
@@ -22,6 +22,8 @@ import Foreign.Ptr
 import System.Win32.Com.HDirect.HDirect ( Ptr, writePtr )
 import System.Win32.Com.Base (lOCALE_USER_DEFAULT)
 import System.IO.Unsafe
+
+import Control.Exception
 
 type ThisPtr = Ptr ()
 
@@ -39,17 +41,17 @@ iidIProvideClassInfo2 :: IID (IProvideClassInfo2 ())
 iidIProvideClassInfo2 = mkIID "{A6BC3AC0-DBAA-11CE-9DE3-00AA004BB851}"
 
 mkIProvideClassInfo :: Either LIBID String
-		    -> CLSID
-		    -> IO (ComVTable (IProvideClassInfo ()) objState)
+            -> CLSID
+            -> IO (ComVTable (IProvideClassInfo ()) objState)
 mkIProvideClassInfo libid clsid = do
   let mb_tlib = unsafePerformIO (hoistInTLB libid)
-  addrOf_gci <- castFunPtrToPtr export_gci (getClassInfo mb_tlib clsid)
-  createComVTable [addrOf_gci]
+  addrOf_gci <- export_gci (getClassInfo mb_tlib clsid)
+  createComVTable [castPtr addrOf_gci]
 
 mkIProvideClassInfo2 :: Either LIBID String
-		     -> CLSID
-		     -> IID a
-		     -> IO (ComVTable (IProvideClassInfo2 ()) objState)
+             -> CLSID
+             -> IID a
+             -> IO (ComVTable (IProvideClassInfo2 ()) objState)
 mkIProvideClassInfo2 libid clsid iid = do
   let mb_tlib = unsafePerformIO (hoistInTLB libid)
   addrOf_gci <- export_gci (getClassInfo mb_tlib clsid)
@@ -58,41 +60,41 @@ mkIProvideClassInfo2 libid clsid iid = do
 
 
 hoistInTLB :: Either LIBID String
-	   -> IO (Maybe (ITypeLib ()))
+       -> IO (Maybe (ITypeLib ()))
 hoistInTLB tlb_loc = 
  catch (
-   case tlb_loc of
-     Left libid -> do
+    case tlb_loc of
+      Left libid -> do
         ip <- loadRegTypeLib libid 1 0 (fromIntegral lOCALE_USER_DEFAULT)
-	return (Just ip)
-     Right loc -> do
+        return (Just ip)
+      Right loc -> do
         ip <- loadTypeLibEx loc False{-don't register-}
-	return (Just ip))
-  (\ _ -> return Nothing)
+        return (Just ip))
+  (\ e -> do
+    p <- return $ show (e :: SomeException)
+    return Nothing)
 
 getClassInfo :: Maybe (ITypeLib ()) -> CLSID -> ThisPtr -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT
 getClassInfo mb_tlib clsid this ppTI 
   | ppTI == nullPtr = return e_POINTER
-  | otherwise	    = do
+  | otherwise = do
      case mb_tlib of
        Nothing -> return e_FAIL
-       Just tl -> do
-	 catch (do
-           ti <- tl # getTypeInfoOfGuid (clsidToGUID clsid)
-	   writeIUnknown True ppTI ti
-	   return s_OK)
-	  (\ _ -> do
-	      writePtr ppTI nullPtr
-	      return e_FAIL)
+       Just tl -> catch (do ti <- tl # getTypeInfoOfGuid (clsidToGUID clsid)                          
+                            writeIUnknown True ppTI ti
+                            return s_OK)
+                        (\e -> do p <- return $ show (e :: SomeException)
+                                  writePtr ppTI nullPtr
+                                  return e_FAIL)
 
 foreign import stdcall "wrapper" 
    export_gci :: (Ptr () -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT) -> IO (Ptr (Ptr () -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT))
 
 getGUID :: IID a
-	-> ThisPtr
-	-> Word32
-	-> Ptr GUID
-	-> IO HRESULT
+    -> ThisPtr
+    -> Word32
+    -> Ptr GUID
+    -> IO HRESULT
 getGUID iid this kind pGUID
   | pGUID == nullPtr  = return e_POINTER
   | kind  /= 1        = return e_INVALIDARG -- 1 == GUIDKIND_DEFAULT_SOUCE_DISP_IID

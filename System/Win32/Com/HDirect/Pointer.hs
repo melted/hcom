@@ -14,25 +14,25 @@
 --
 -----------------------------------------------------------------------------
 module System.Win32.Com.HDirect.Pointer  
-	( 
-	  Ptr
-	
-	, allocMemory
-	, stackFrame
+  ( 
+    Ptr
+  
+  , allocMemory
+  , stackFrame
 
-	, writeSeqAtDec
+  , writeSeqAtDec
 
         , freeMemory
-	, freeBSTR
-	, freeWith
-	, freeWithC
-	
-	, primNoFree
-	
-	, finalNoFree
-	, finalFreeMemory
-	
-	, makeFO
+  , freeBSTR
+  , freeWith
+  , freeWithC
+  
+  , primNoFree
+  
+  , finalNoFree
+  , finalFreeMemory
+  
+  , makeFO
 
        ) where
 

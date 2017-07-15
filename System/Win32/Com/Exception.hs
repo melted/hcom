@@ -38,12 +38,12 @@ catchComException act hdlr =
    Control.Exception.catch act
       (\ ex -> 
         case ex of
-	  DynException d -> 
-	    case fromDynamic d of
-	      Just ce -> hdlr (Right ce)
-	      _       -> throwIO ex
-	  IOException ioe -> hdlr (Left ioe)
-	  _ -> throwIO ex)
+    DynException d -> 
+      case fromDynamic d of
+        Just ce -> hdlr (Right ce)
+        _       -> throwIO ex
+    IOException ioe -> hdlr (Left ioe)
+    _ -> throwIO ex)
 
 catch_ce_ :: IO a -> (Maybe ComException -> IO a) -> IO a
 catch_ce_ act hdlr = 
@@ -51,8 +51,8 @@ catch_ce_ act hdlr =
       act 
       (\ e ->
         case e of
-	  Left  ioe -> hdlr Nothing
-	  Right ce ->  hdlr (Just ce))
+    Left  ioe -> hdlr Nothing
+    Right ce ->  hdlr (Just ce))
 
 #else
 import Control.Exception
@@ -65,10 +65,10 @@ catchComException act hdlr =
   Control.Exception.catch act
      (\ e -> 
         case fromException e of
-	  Just ioe -> hdlr (Left ioe)
-	  _ -> case fromException e of
-	        Just d -> hdlr (Right d)
-		_      -> throwIO e)
+    Just ioe -> hdlr (Left ioe)
+    _ -> case fromException e of
+          Just d -> hdlr (Right d)
+    _      -> throwIO e)
 
 catch_ce_ :: IO a -> (Maybe ComException -> IO a) -> IO a
 catch_ce_ act hdlr = 
@@ -76,8 +76,8 @@ catch_ce_ act hdlr =
       act 
       (\ e ->
         case e of
-	  Left  ioe -> hdlr Nothing
-	  Right ce ->  hdlr (Just ce))
+    Left  ioe -> hdlr Nothing
+    Right ce ->  hdlr (Just ce))
 #endif
 
 -- | @Com_Exception@ is either an 'IOException' or 'ComException';
@@ -98,8 +98,8 @@ check2HR :: HRESULT -> IO ()
 check2HR hr
       | succeeded hr = return ()
       | otherwise    = do
-	  dw <- getLastError
-	  coFailHR (word32ToInt32 dw)
+    dw <- getLastError
+    coFailHR (word32ToInt32 dw)
 
 -- | @checkBool mbZero@ raises a COM exception if @mbZero@ is equal
 -- to...zero. The /last error/ is embedded inside the exception.
@@ -107,8 +107,8 @@ checkBool :: Int32 -> IO ()
 checkBool flg
       | flg /=0      = return ()
       | otherwise    = do
-	  dw <- getLastError
-	  coFailHR (word32ToInt32 dw)
+    dw <- getLastError
+    coFailHR (word32ToInt32 dw)
 
 -- | @returnHR act@ runs the IO action @act@, catching any
 -- COM exceptions. Success or failure is then mapped back into
@@ -162,8 +162,8 @@ coOnFail :: IO a -> String -> IO a
 coOnFail io msg      = catchComException io
     (\ e -> 
        case e of
-         Left  ioe -> coFail (msg ++ ": " ++ ioeGetErrorString ioe)
-	 Right ce  -> coFail (msg ++ ": " ++ comExceptionMsg ce))
+          Left  ioe -> coFail (msg ++ ": " ++ ioeGetErrorString ioe)
+          Right ce  -> coFail (msg ++ ": " ++ comExceptionMsg ce))
 
 -- | @coFail msg@ raised the @E_FAIL@ COM exception along with
 -- the descriptive string @msg@.
