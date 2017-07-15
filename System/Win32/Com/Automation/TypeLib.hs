@@ -1419,7 +1419,7 @@ setGuid guid1 iptr =
     guid1 <- marshallGUID guid1
     invokeAndCheck (\ methPtr iptr -> withForeignPtr guid1 (\ guid1 -> prim_System_Win32_Com_Automation_TypeLib_setGuid methPtr iptr guid1)) 3 iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setGuid :: Ptr () -> Ptr () -> Ptr GUID -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setGuid :: Ptr (Ptr () -> Ptr GUID -> IO Int32) -> Ptr () -> Ptr GUID -> IO Int32
 setTypeFlags :: UINT
              -> ICreateTypeInfo a0
              -> IO ()
@@ -1428,7 +1428,7 @@ setTypeFlags uTypeFlags iptr =
                  4
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeFlags :: Ptr () -> Ptr () -> Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeFlags :: Ptr (Ptr () -> Word32 -> IO Int32) -> Ptr () -> Word32 -> IO Int32
 setDocString :: LPOLESTR
              -> ICreateTypeInfo a0
              -> IO ()
@@ -1438,7 +1438,7 @@ setDocString pStrDoc iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setDocString methPtr iptr pStrDoc) 5 iptr
     freeWideString pStrDoc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setDocString :: Ptr () -> Ptr () -> Ptr WideString -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setDocString :: Ptr (Ptr () -> Ptr WideString -> IO Int32) -> Ptr () -> Ptr WideString -> IO Int32
 setHelpContext :: DWORD
                -> ICreateTypeInfo a0
                -> IO ()
@@ -1456,7 +1456,7 @@ setVersion wMajorVerNum0 wMinorVerNum0 iptr =
                  7
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setVersion :: Ptr () -> Ptr () -> Word16 -> Word16 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setVersion :: Ptr (Ptr () -> Word16 -> Word16 -> IO Int32) -> Ptr () -> Word16 -> Word16 -> IO Int32
 addRefTypeInfo :: ITypeInfo a1
                -> ICreateTypeInfo a0
                -> IO HREFTYPE
@@ -1467,7 +1467,7 @@ addRefTypeInfo pTInfo iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr pTInfo (\ pTInfo -> prim_System_Win32_Com_Automation_TypeLib_addRefTypeInfo methPtr iptr pTInfo phRefType)) 8 iptr
     doThenFree free readWord32 phRefType
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addRefTypeInfo :: Ptr () -> Ptr () -> Ptr (ITypeInfo a) -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addRefTypeInfo :: Ptr (Ptr () -> Ptr (ITypeInfo a) -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr (ITypeInfo a) -> Ptr Word32 -> IO Int32
 addFuncDesc :: UINT
             -> FUNCDESC
             -> ICreateTypeInfo a0
@@ -1478,7 +1478,7 @@ addFuncDesc index pFuncDesc iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_addFuncDesc methPtr iptr index pFuncDesc) 9 iptr
     free pFuncDesc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addFuncDesc :: Ptr () -> Ptr () -> Word32 -> Ptr FUNCDESC -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addFuncDesc :: Ptr (Ptr () -> Word32 -> Ptr FUNCDESC -> IO Int32) -> Ptr () -> Word32 -> Ptr FUNCDESC -> IO Int32
 addImplType :: UINT
             -> HREFTYPE
             -> ICreateTypeInfo a0
@@ -1488,7 +1488,7 @@ addImplType index hRefType iptr =
                  10
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addImplType :: Ptr () -> Ptr () -> Word32 -> Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addImplType :: Ptr (Ptr () -> Word32 -> Word32 -> IO Int32) -> Ptr () -> Word32 -> Word32 -> IO Int32
 setImplTypeFlags :: UINT
                  -> INT
                  -> ICreateTypeInfo a0
@@ -1498,7 +1498,7 @@ setImplTypeFlags index implTypeFlags iptr =
                  11
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setImplTypeFlags :: Ptr () -> Ptr () -> Word32 -> Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setImplTypeFlags :: Ptr (Ptr () -> Word32 -> Int32 -> IO Int32) -> Ptr () -> Word32 -> Int32 -> IO Int32
 setAlignment :: WORD
              -> ICreateTypeInfo a0
              -> IO ()
@@ -1507,7 +1507,7 @@ setAlignment cbAlignment0 iptr =
                  12
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setAlignment :: Ptr () -> Ptr () -> Word16 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setAlignment :: Ptr (Ptr () -> Word16 -> IO Int32) -> Ptr () -> Word16 -> IO Int32
 setSchema :: LPOLESTR
           -> ICreateTypeInfo a0
           -> IO ()
@@ -1527,7 +1527,7 @@ addVarDesc index pVarDesc iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_addVarDesc methPtr iptr index pVarDesc) 14 iptr
     free pVarDesc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addVarDesc :: Ptr () -> Ptr () -> Word32 -> Ptr VARDESC -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addVarDesc :: Ptr (Ptr () -> Word32 -> Ptr VARDESC -> IO Int32) -> Ptr () -> Word32 -> Ptr VARDESC -> IO Int32
 setFuncAndParamNames :: UINT
                      -> [LPOLESTR]
                      -> ICreateTypeInfo a0
@@ -1541,7 +1541,7 @@ setFuncAndParamNames index rgszNames iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setFuncAndParamNames methPtr iptr index rgszNames cNames) 15 iptr
     free rgszNames
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setFuncAndParamNames :: Ptr () -> Ptr () -> Word32 -> Ptr (Ptr WideString) -> Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setFuncAndParamNames :: Ptr (Ptr () -> Word32 -> Ptr (Ptr WideString) -> Word32 -> IO Int32) -> Ptr () -> Word32 -> Ptr (Ptr WideString) -> Word32 -> IO Int32
 setVarName :: UINT
            -> LPOLESTR
            -> ICreateTypeInfo a0
@@ -1552,7 +1552,7 @@ setVarName index szName iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setVarName methPtr iptr index szName) 16 iptr
     freeWideString szName
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setVarName :: Ptr () -> Ptr () -> Word32 -> Ptr WideString -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setVarName :: Ptr (Ptr () -> Word32 -> Ptr WideString -> IO Int32) -> Ptr () -> Word32 -> Ptr WideString -> IO Int32
 setTypeDescAlias :: TYPEDESC
                  -> ICreateTypeInfo a0
                  -> IO ()
@@ -1562,7 +1562,7 @@ setTypeDescAlias pTDescAlias iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setTypeDescAlias methPtr iptr pTDescAlias) 17 iptr
     free pTDescAlias
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeDescAlias :: Ptr () -> Ptr () -> Ptr TYPEDESC -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeDescAlias :: Ptr (Ptr () -> Ptr TYPEDESC -> IO Int32) -> Ptr () -> Ptr TYPEDESC -> IO Int32
 defineFuncAsDllEntry :: UINT
                      -> LPOLESTR
                      -> LPOLESTR
@@ -1576,7 +1576,7 @@ defineFuncAsDllEntry index szDllName szProcName iptr =
     freeWideString szDllName
     freeWideString szProcName
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_defineFuncAsDllEntry :: Ptr () -> Ptr () -> Word32 -> Ptr WideString -> Ptr WideString -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_defineFuncAsDllEntry :: Ptr (Ptr () -> Word32 -> Ptr WideString -> Ptr WideString -> IO Int32) -> Ptr () -> Word32 -> Ptr WideString -> Ptr WideString -> IO Int32
 setFuncDocString :: UINT
                  -> LPOLESTR
                  -> ICreateTypeInfo a0
@@ -1625,7 +1625,7 @@ setMops index bstrMops iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setMops methPtr iptr index bstrMops) 23 iptr
     freeBSTR bstrMops
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setMops :: Ptr () -> Ptr () -> Word32 -> Ptr String -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setMops :: Ptr (Ptr () -> Word32 -> Ptr String -> IO Int32) -> Ptr () -> Word32 -> Ptr String -> IO Int32
 setTypeIdldesc :: IDLDESC
                -> ICreateTypeInfo a0
                -> IO ()
@@ -1635,7 +1635,7 @@ setTypeIdldesc pIdlDesc iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_setTypeIdldesc methPtr iptr pIdlDesc) 24 iptr
     free pIdlDesc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeIdldesc :: Ptr () -> Ptr () -> Ptr IDLDESC -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setTypeIdldesc :: Ptr (Ptr () -> Ptr IDLDESC -> IO Int32) -> Ptr () -> Ptr IDLDESC -> IO Int32
 layOut :: ICreateTypeInfo a0
        -> IO ()
 layOut iptr =
@@ -1643,7 +1643,7 @@ layOut iptr =
                  25
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_layOut :: Ptr () -> Ptr () -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_layOut :: Ptr (Ptr () -> IO Int32) -> Ptr () -> IO Int32
 -- --------------------------------------------------
 -- 
 -- interface ICreateTypeInfo2
@@ -1674,7 +1674,7 @@ deleteFuncDescByMemId memid1 invKind iptr =
     invKind <- marshallEnum32 invKind
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_deleteFuncDescByMemId methPtr iptr memid1 invKind) 27 iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_deleteFuncDescByMemId :: Ptr () -> Ptr () -> Int32 -> Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_deleteFuncDescByMemId :: Ptr (Ptr () -> Int32 -> Int32 -> IO Int32) -> Ptr () -> Int32 -> Int32 -> IO Int32
 deleteVarDesc :: UINT
               -> ICreateTypeInfo2 a0
               -> IO ()
@@ -1691,7 +1691,7 @@ deleteVarDescByMemId memid1 iptr =
                  29
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_deleteVarDescByMemId :: Ptr () -> Ptr () -> Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_deleteVarDescByMemId :: Ptr (Ptr () -> Int32 -> IO Int32) -> Ptr () -> Int32 -> IO Int32
 deleteImplType :: UINT
                -> ICreateTypeInfo2 a0
                -> IO ()
@@ -1711,7 +1711,7 @@ setCustData guid1 pVarVal iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr guid1 (\ guid1 -> prim_System_Win32_Com_Automation_TypeLib_setCustData methPtr iptr guid1 pVarVal)) 31 iptr
     free pVarVal
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setCustData :: Ptr () -> Ptr () -> Ptr GUID -> VARIANT -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setCustData :: Ptr (Ptr () -> Ptr GUID -> VARIANT -> IO Int32) -> Ptr () -> Ptr GUID -> VARIANT -> IO Int32
 setFuncCustData :: UINT
                 -> REFGUID
                 -> VARIANT
@@ -1724,7 +1724,7 @@ setFuncCustData index guid1 pVarVal iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr guid1 (\ guid1 -> prim_System_Win32_Com_Automation_TypeLib_setFuncCustData methPtr iptr index guid1 pVarVal)) 32 iptr
     free pVarVal
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setFuncCustData :: Ptr () -> Ptr () -> Word32 -> Ptr GUID -> VARIANT -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setFuncCustData :: Ptr (Ptr () -> Word32 -> Ptr GUID -> VARIANT -> IO Int32) -> Ptr () -> Word32 -> Ptr GUID -> VARIANT -> IO Int32
 setParamCustData :: UINT
                  -> UINT
                  -> REFGUID
@@ -1738,7 +1738,7 @@ setParamCustData indexFunc indexParam guid1 pVarVal iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr guid1 (\ guid1 -> prim_System_Win32_Com_Automation_TypeLib_setParamCustData methPtr iptr indexFunc indexParam guid1 pVarVal)) 33 iptr
     free pVarVal
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setParamCustData :: Ptr () -> Ptr () -> Word32 -> Word32 -> Ptr GUID -> VARIANT -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_setParamCustData :: Ptr (Ptr () -> Word32 -> Word32 -> Ptr GUID -> VARIANT -> IO Int32) -> Ptr () -> Word32 -> Word32 -> Ptr GUID -> VARIANT -> IO Int32
 setVarCustData :: UINT
                -> REFGUID
                -> VARIANT
@@ -1830,7 +1830,7 @@ createTypeInfo szName tkind iptr =
     freeWideString szName
     doThenFree free (readIUnknown False) ppCTInfo
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_createTypeInfo :: Ptr () -> Ptr () -> Ptr WideString -> Int32 -> Ptr (Ptr (ICreateTypeInfo a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_createTypeInfo :: Ptr (Ptr () -> Ptr WideString -> Int32 -> Ptr (Ptr (ICreateTypeInfo a)) -> IO Int32) -> Ptr () -> Ptr WideString -> Int32 -> Ptr (Ptr (ICreateTypeInfo a)) -> IO Int32
 setNameCTL :: LPOLESTR
            -> ICreateTypeLib a0
            -> IO ()
@@ -2088,7 +2088,7 @@ bind szName lHashVal wFlags iptr =
     pBindPtr <- doThenFree free (readBINDPTR False (return ((-1)))) pBindPtr
     return (ppTInfo, pDescKind, pBindPtr)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_bind :: Ptr () -> Ptr () -> Ptr WideString -> Word32 -> Word16 -> Ptr (Ptr (ITypeInfo a)) -> Ptr DESCKIND -> Ptr BINDPTR -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_bind :: Ptr (Ptr () -> Ptr WideString -> Word32 -> Word16 -> Ptr (Ptr (ITypeInfo a)) -> Ptr DESCKIND -> Ptr BINDPTR -> IO Int32) -> Ptr () -> Ptr WideString -> Word32 -> Word16 -> Ptr (Ptr (ITypeInfo a)) -> Ptr DESCKIND -> Ptr BINDPTR -> IO Int32
 bindType :: LPOLESTR
          -> ULONG
          -> ITypeComp a0
@@ -2104,7 +2104,7 @@ bindType szName lHashVal iptr =
     ppTComp <- doThenFree free (readIUnknown False) ppTComp
     return (ppTInfo, ppTComp)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_bindType :: Ptr () -> Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr (Ptr (ITypeComp a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_bindType :: Ptr (Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr (Ptr (ITypeComp a)) -> IO Int32) -> Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr (Ptr (ITypeComp a)) -> IO Int32
 -- --------------------------------------------------
 -- 
 -- interface ITypeInfo
@@ -2125,7 +2125,7 @@ getTypeAttr iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getTypeAttr methPtr iptr ppTypeAttr) 3 iptr
     doThenFree free (readunique (readTYPEATTR False)) ppTypeAttr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeAttr :: Ptr () -> Ptr () -> Ptr (Ptr TYPEATTR) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeAttr :: Ptr (Ptr () -> Ptr (Ptr TYPEATTR) -> IO Int32) -> Ptr () -> Ptr (Ptr TYPEATTR) -> IO Int32
 getTypeComp :: ITypeInfo a0
             -> IO (ITypeComp ())
 getTypeComp iptr =
@@ -2134,7 +2134,7 @@ getTypeComp iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getTypeComp methPtr iptr ppTComp) 4 iptr
     doThenFree free (readIUnknown False) ppTComp
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeComp :: Ptr () -> Ptr () -> Ptr (Ptr (ITypeComp a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeComp :: Ptr (Ptr () -> Ptr (Ptr (ITypeComp a)) -> IO Int32) -> Ptr () -> Ptr (Ptr (ITypeComp a)) -> IO Int32
 getFuncDesc :: UINT
             -> ITypeInfo a0
             -> IO (Maybe FUNCDESC)
@@ -2144,7 +2144,7 @@ getFuncDesc index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getFuncDesc methPtr iptr index ppFuncDesc) 5 iptr
     doThenFree free (readunique readFUNCDESC) ppFuncDesc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getFuncDesc :: Ptr () -> Ptr () -> Word32 -> Ptr (Ptr FUNCDESC) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getFuncDesc :: Ptr (Ptr () -> Word32 -> Ptr (Ptr FUNCDESC) -> IO Int32) -> Ptr () -> Word32 -> Ptr (Ptr FUNCDESC) -> IO Int32
 getVarDesc :: UINT
            -> ITypeInfo a0
            -> IO (Maybe VARDESC)
@@ -2154,7 +2154,7 @@ getVarDesc index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getVarDesc methPtr iptr index ppVarDesc) 6 iptr
     doThenFree free (readunique readVARDESC) ppVarDesc
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getVarDesc :: Ptr () -> Ptr () -> Word32 -> Ptr (Ptr VARDESC) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getVarDesc :: Ptr (Ptr () -> Word32 -> Ptr (Ptr VARDESC) -> IO Int32) -> Ptr () -> Word32 -> Ptr (Ptr VARDESC) -> IO Int32
 getNames :: MEMBERID
          -> UINT
          -> ITypeInfo a0
@@ -2169,7 +2169,7 @@ getNames memid1 cMaxNames iptr =
     let pcNames' = (pcNames)
     doThenFree free (unmarshalllist sizeofPtr 0 ((fromIntegral ((pcNames')) :: Word32)) readBSTR) rgBstrNames
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getNames :: Ptr () -> Ptr () -> Int32 -> Ptr String -> Word32 -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getNames :: Ptr (Ptr () -> Int32 -> Ptr String -> Word32 -> Ptr Word32 -> IO Int32) -> Ptr () -> Int32 -> Ptr String -> Word32 -> Ptr Word32 -> IO Int32
 getRefTypeOfImplType :: UINT
                      -> ITypeInfo a0
                      -> IO HREFTYPE
@@ -2179,7 +2179,7 @@ getRefTypeOfImplType index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getRefTypeOfImplType methPtr iptr index pRefType) 8 iptr
     doThenFree free readWord32 pRefType
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getRefTypeOfImplType :: Ptr () -> Ptr () -> Word32 -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getRefTypeOfImplType :: Ptr (Ptr () -> Word32 -> Ptr Word32 -> IO Int32) -> Ptr () -> Word32 -> Ptr Word32 -> IO Int32
 getImplTypeFlags :: UINT
                  -> ITypeInfo a0
                  -> IO INT
@@ -2189,7 +2189,7 @@ getImplTypeFlags index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getImplTypeFlags methPtr iptr index pImplTypeFlags) 9 iptr
     doThenFree free readInt32 pImplTypeFlags
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getImplTypeFlags :: Ptr () -> Ptr () -> Word32 -> Ptr Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getImplTypeFlags :: Ptr (Ptr () -> Word32 -> Ptr Int32 -> IO Int32) -> Ptr () -> Word32 -> Ptr Int32 -> IO Int32
 getIDsOfNames :: [LPOLESTR]
               -> ITypeInfo a0
               -> IO [MEMBERID]
@@ -2205,7 +2205,7 @@ getIDsOfNames rgszNames iptr =
     cNames <- unmarshallWord32 cNames
     doThenFree (freeref trivialFree) (unmarshalllist sizeofInt32 0 ((fromIntegral cNames :: Word32)) readInt32) pMemId
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getIDsOfNames :: Ptr () -> Ptr () -> Ptr (Ptr WideString) -> Word32 -> Ptr Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getIDsOfNames :: Ptr (Ptr () -> Ptr (Ptr WideString) -> Word32 -> Ptr Int32 -> IO Int32) -> Ptr () -> Ptr (Ptr WideString) -> Word32 -> Ptr Int32 -> IO Int32
 invoke :: PVOID
        -> MEMBERID
        -> WORD
@@ -2225,7 +2225,7 @@ invoke pvInstance memid1 wFlags pDispParams iptr =
     pDispParams <- doThenFree free readDISPPARAMS pDispParams
     return (pDispParams, pVarResult, pExcepInfo, puArgErr)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_invoke :: Ptr () -> Ptr () -> Ptr () -> Int32 -> Word16 -> Ptr DISPPARAMS -> VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_invoke :: Ptr (Ptr () -> Ptr () -> Int32 -> Word16 -> Ptr DISPPARAMS -> VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr () -> Int32 -> Word16 -> Ptr DISPPARAMS -> VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO Int32
 getDocumentation :: MEMBERID
                  -> ITypeInfo a0
                  -> IO (String, String, DWORD, String)
@@ -2242,7 +2242,7 @@ getDocumentation memid1 iptr =
     pBstrHelpFile <- doThenFree (freeref freeBSTR) readBSTR pBstrHelpFile
     return (pBstrName, pBstrDocString, pdwHelpContext, pBstrHelpFile)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDocumentation :: Ptr () -> Ptr () -> Int32 -> Ptr String -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDocumentation :: Ptr (Ptr () -> Int32 -> Ptr String -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32) -> Ptr () -> Int32 -> Ptr String -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32
 getDllEntry :: MEMBERID
             -> INVOKEKIND
             -> ITypeInfo a0
@@ -2259,7 +2259,7 @@ getDllEntry memid1 invKind iptr =
     pwOrdinal <- doThenFree free readWord16 pwOrdinal
     return (pBstrDllName, pBstrName, pwOrdinal)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDllEntry :: Ptr () -> Ptr () -> Int32 -> Int32 -> Ptr String -> Ptr String -> Ptr Word16 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDllEntry :: Ptr (Ptr () -> Int32 -> Int32 -> Ptr String -> Ptr String -> Ptr Word16 -> IO Int32) -> Ptr () -> Int32 -> Int32 -> Ptr String -> Ptr String -> Ptr Word16 -> IO Int32
 getRefTypeInfo :: HREFTYPE
                -> ITypeInfo a0
                -> IO (ITypeInfo ())
@@ -2269,7 +2269,7 @@ getRefTypeInfo hRefType iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getRefTypeInfo methPtr iptr hRefType ppTInfo) 14 iptr
     doThenFree free (readIUnknown False) ppTInfo
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getRefTypeInfo :: Ptr () -> Ptr () -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getRefTypeInfo :: Ptr (Ptr () -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> IO Int32) -> Ptr () -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> IO Int32
 addressOfMember :: MEMBERID
                 -> INVOKEKIND
                 -> ITypeInfo a0
@@ -2281,7 +2281,7 @@ addressOfMember memid1 invKind iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_addressOfMember methPtr iptr memid1 invKind ppv) 15 iptr
     doThenFree free readPtr ppv
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addressOfMember :: Ptr () -> Ptr () -> Int32 -> Int32 -> Ptr (Ptr ()) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_addressOfMember :: Ptr (Ptr () -> Int32 -> Int32 -> Ptr (Ptr ()) -> IO Int32) -> Ptr () -> Int32 -> Int32 -> Ptr (Ptr ()) -> IO Int32
 createInstance :: IUnknown a2
                -> IID a3
                -> ITypeInfo a0
@@ -2294,7 +2294,7 @@ createInstance pUnkOuter riid iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr pUnkOuter (\ pUnkOuter -> withForeignPtr riid (\ riid -> prim_System_Win32_Com_Automation_TypeLib_createInstance methPtr iptr pUnkOuter riid ppvObj))) 16 iptr
     doThenFree free (readIUnknown False) ppvObj
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_createInstance :: Ptr () -> Ptr () -> Ptr (IUnknown a) -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_createInstance :: Ptr (Ptr () -> Ptr (IUnknown a) -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO Int32) -> Ptr () -> Ptr (IUnknown a) -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO Int32
 getMops :: MEMBERID
         -> ITypeInfo a0
         -> IO String
@@ -2304,7 +2304,7 @@ getMops memid1 iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getMops methPtr iptr memid1 pBstrMops) 17 iptr
     doThenFree (freeref freeBSTR) readBSTR pBstrMops
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getMops :: Ptr () -> Ptr () -> Int32 -> Ptr String -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getMops :: Ptr (Ptr () -> Int32 -> Ptr String -> IO Int32) -> Ptr () -> Int32 -> Ptr String -> IO Int32
 getContainingTypeLib :: ITypeInfo a0
                      -> IO (ITypeLib (), UINT)
 getContainingTypeLib iptr =
@@ -2316,7 +2316,7 @@ getContainingTypeLib iptr =
     pIndex <- doThenFree free readWord32 pIndex
     return (ppTLib, pIndex)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getContainingTypeLib :: Ptr () -> Ptr () -> Ptr (Ptr (ITypeLib a)) -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getContainingTypeLib :: Ptr (Ptr () -> Ptr (Ptr (ITypeLib a)) -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr (Ptr (ITypeLib a)) -> Ptr Word32 -> IO Int32
 releaseTypeAttr :: Ptr TYPEATTR
                 -> ITypeInfo a0
                 -> IO ()
@@ -2325,7 +2325,7 @@ releaseTypeAttr pTypeAttr iptr =
            19
            iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseTypeAttr :: Ptr () -> Ptr () -> Ptr TYPEATTR -> IO ()
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseTypeAttr :: Ptr (Ptr () -> Ptr TYPEATTR -> IO ()) -> Ptr () -> Ptr TYPEATTR -> IO ()
 releaseFuncDesc :: Ptr FUNCDESC
                 -> ITypeInfo a0
                 -> IO ()
@@ -2334,7 +2334,7 @@ releaseFuncDesc pFuncDesc iptr =
            20
            iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseFuncDesc :: Ptr () -> Ptr () -> Ptr FUNCDESC -> IO ()
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseFuncDesc :: Ptr (Ptr () -> Ptr FUNCDESC -> IO ()) -> Ptr () -> Ptr FUNCDESC -> IO ()
 releaseVarDesc :: Ptr VARDESC
                -> ITypeInfo a0
                -> IO ()
@@ -2343,7 +2343,7 @@ releaseVarDesc pVarDesc iptr =
            21
            iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseVarDesc :: Ptr () -> Ptr () -> Ptr VARDESC -> IO ()
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseVarDesc :: Ptr (Ptr () -> Ptr VARDESC -> IO ()) -> Ptr () -> Ptr VARDESC -> IO ()
 -- --------------------------------------------------
 -- 
 -- interface ITypeInfo2
@@ -2364,7 +2364,7 @@ getTypeKind iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getTypeKind methPtr iptr pTypeKind) 22 iptr
     doThenFree free readEnum32 pTypeKind
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeKind :: Ptr () -> Ptr () -> Ptr TYPEKIND -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeKind :: Ptr (Ptr () -> Ptr TYPEKIND -> IO Int32) -> Ptr () -> Ptr TYPEKIND -> IO Int32
 getTypeFlags :: ITypeInfo2 a0
              -> IO ULONG
 getTypeFlags iptr =
@@ -2373,7 +2373,7 @@ getTypeFlags iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getTypeFlags methPtr iptr pTypeFlags) 23 iptr
     doThenFree free readWord32 pTypeFlags
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeFlags :: Ptr () -> Ptr () -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeFlags :: Ptr (Ptr () -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr Word32 -> IO Int32
 getFuncIndexOfMemId :: MEMBERID
                     -> INVOKEKIND
                     -> ITypeInfo2 a0
@@ -2385,7 +2385,7 @@ getFuncIndexOfMemId memid1 invKind iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getFuncIndexOfMemId methPtr iptr memid1 invKind pFuncIndex) 24 iptr
     doThenFree free readWord32 pFuncIndex
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getFuncIndexOfMemId :: Ptr () -> Ptr () -> Int32 -> Int32 -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getFuncIndexOfMemId :: Ptr (Ptr () -> Int32 -> Int32 -> Ptr Word32 -> IO Int32) -> Ptr () -> Int32 -> Int32 -> Ptr Word32 -> IO Int32
 getVarIndexOfMemId :: MEMBERID
                    -> ITypeInfo2 a0
                    -> IO UINT
@@ -2395,7 +2395,7 @@ getVarIndexOfMemId memid1 iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getVarIndexOfMemId methPtr iptr memid1 pVarIndex) 25 iptr
     doThenFree free readWord32 pVarIndex
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getVarIndexOfMemId :: Ptr () -> Ptr () -> Int32 -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getVarIndexOfMemId :: Ptr (Ptr () -> Int32 -> Ptr Word32 -> IO Int32) -> Ptr () -> Int32 -> Ptr Word32 -> IO Int32
 getCustData :: REFGUID
             -> ITypeInfo2 a0
             -> IO VARIANT
@@ -2466,7 +2466,7 @@ getDocumentation2 memid1 lcid0 iptr =
     pbstrHelpStringDll <- doThenFree (freeref freeBSTR) readBSTR pbstrHelpStringDll
     return (pbstrHelpString, pdwHelpStringContext, pbstrHelpStringDll)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDocumentation2 :: Ptr () -> Ptr () -> Int32 -> Word32 -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getDocumentation2 :: Ptr (Ptr () -> Int32 -> Word32 -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32) -> Ptr () -> Int32 -> Word32 -> Ptr String -> Ptr Word32 -> Ptr String -> IO Int32
 getAllCustData :: ITypeInfo2 a0
                -> IO CUSTDATA
 getAllCustData iptr =
@@ -2475,7 +2475,7 @@ getAllCustData iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getAllCustData methPtr iptr pCustData) 32 iptr
     doThenFree free (readCUSTDATA False) pCustData
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllCustData :: Ptr () -> Ptr () -> Ptr CUSTDATA -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllCustData :: Ptr (Ptr () -> Ptr CUSTDATA -> IO Int32) -> Ptr () -> Ptr CUSTDATA -> IO Int32
 getAllFuncCustData :: UINT
                    -> ITypeInfo2 a0
                    -> IO CUSTDATA
@@ -2485,7 +2485,7 @@ getAllFuncCustData index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getAllFuncCustData methPtr iptr index pCustData) 33 iptr
     doThenFree free (readCUSTDATA False) pCustData
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllFuncCustData :: Ptr () -> Ptr () -> Word32 -> Ptr CUSTDATA -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllFuncCustData :: Ptr (Ptr () -> Word32 -> Ptr CUSTDATA -> IO Int32) -> Ptr () -> Word32 -> Ptr CUSTDATA -> IO Int32
 getAllParamCustData :: UINT
                     -> UINT
                     -> ITypeInfo2 a0
@@ -2496,7 +2496,7 @@ getAllParamCustData indexFunc indexParam iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getAllParamCustData methPtr iptr indexFunc indexParam pCustData) 34 iptr
     doThenFree free (readCUSTDATA False) pCustData
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllParamCustData :: Ptr () -> Ptr () -> Word32 -> Word32 -> Ptr CUSTDATA -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getAllParamCustData :: Ptr (Ptr () -> Word32 -> Word32 -> Ptr CUSTDATA -> IO Int32) -> Ptr () -> Word32 -> Word32 -> Ptr CUSTDATA -> IO Int32
 getAllVarCustData :: UINT
                   -> ITypeInfo2 a0
                   -> IO CUSTDATA
@@ -2647,7 +2647,7 @@ getTypeInfoCount iptr =
            3
            iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoCount :: Ptr () -> Ptr () -> IO Word32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoCount :: Ptr (Ptr () -> IO Word32) -> Ptr () -> IO Word32
 getTypeInfo :: UINT
             -> ITypeLib a0
             -> IO (ITypeInfo ())
@@ -2666,7 +2666,7 @@ getTypeInfoType index iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getTypeInfoType methPtr iptr index pTKind) 5 iptr
     doThenFree free readEnum32 pTKind
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoType :: Ptr () -> Ptr () -> Word32 -> Ptr TYPEKIND -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoType :: Ptr (Ptr () -> Word32 -> Ptr TYPEKIND -> IO Int32) -> Ptr () -> Word32 -> Ptr TYPEKIND -> IO Int32
 getTypeInfoOfGuid :: REFGUID
                   -> ITypeLib a0
                   -> IO (ITypeInfo ())
@@ -2677,7 +2677,7 @@ getTypeInfoOfGuid guid2 iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr guid2 (\ guid2 -> prim_System_Win32_Com_Automation_TypeLib_getTypeInfoOfGuid methPtr iptr guid2 ppTinfo)) 6 iptr
     doThenFree free (readIUnknown False) ppTinfo
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoOfGuid :: Ptr () -> Ptr () -> Ptr GUID -> Ptr (Ptr (ITypeInfo a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getTypeInfoOfGuid :: Ptr (Ptr () -> Ptr GUID -> Ptr (Ptr (ITypeInfo a)) -> IO Int32) -> Ptr () -> Ptr GUID -> Ptr (Ptr (ITypeInfo a)) -> IO Int32
 getLibAttr :: ITypeLib a0
            -> IO (Maybe TLIBATTR)
 getLibAttr iptr =
@@ -2686,7 +2686,7 @@ getLibAttr iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_TypeLib_getLibAttr methPtr iptr ppTLibAttr) 7 iptr
     doThenFree free (readunique (readTLIBATTR False)) ppTLibAttr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getLibAttr :: Ptr () -> Ptr () -> Ptr (Ptr TLIBATTR) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getLibAttr :: Ptr (Ptr () -> Ptr (Ptr TLIBATTR) -> IO Int32) -> Ptr () -> Ptr (Ptr TLIBATTR) -> IO Int32
 getTypeCompTL :: ITypeLib a0
               -> IO (ITypeComp ())
 getTypeCompTL iptr =
@@ -2724,7 +2724,7 @@ isName szNameBuf lHashVal iptr =
     szNameBuf <- doThenFree freeWideString unmarshallWideString szNameBuf
     return (szNameBuf, pfName)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_isName :: Ptr () -> Ptr () -> Ptr WideString -> Word32 -> Ptr Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_isName :: Ptr (Ptr () -> Ptr WideString -> Word32 -> Ptr Int32 -> IO Int32) -> Ptr () -> Ptr WideString -> Word32 -> Ptr Int32 -> IO Int32
 findName :: LPOLESTR
          -> ULONG
          -> USHORT
@@ -2744,7 +2744,7 @@ findName szNameBuf lHashVal pcFound iptr =
     rgMemId <- doThenFree (freeref trivialFree) (unmarshalllist sizeofInt32 0 ((fromIntegral ((pcFound')) :: Word32)) readInt32) rgMemId
     return (szNameBuf, ppTInfo, rgMemId)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_findName :: Ptr () -> Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr Int32 -> Ptr Word16 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_findName :: Ptr (Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr Int32 -> Ptr Word16 -> IO Int32) -> Ptr () -> Ptr WideString -> Word32 -> Ptr (Ptr (ITypeInfo a)) -> Ptr Int32 -> Ptr Word16 -> IO Int32
 releaseTLibAttr :: Ptr TLIBATTR
                 -> ITypeLib a0
                 -> IO ()
@@ -2753,7 +2753,7 @@ releaseTLibAttr pTLibAttr iptr =
            12
            iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseTLibAttr :: Ptr () -> Ptr () -> Ptr TLIBATTR -> IO ()
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_releaseTLibAttr :: Ptr (Ptr () -> Ptr TLIBATTR -> IO ()) -> Ptr () -> Ptr TLIBATTR -> IO ()
 -- --------------------------------------------------
 -- 
 -- interface ITypeLib2
@@ -2787,7 +2787,7 @@ getLibStatistics iptr =
     pcchUniqueNames <- doThenFree free readWord32 pcchUniqueNames
     return (pcUniqueNames, pcchUniqueNames)
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getLibStatistics :: Ptr () -> Ptr () -> Ptr Word32 -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_getLibStatistics :: Ptr (Ptr () -> Ptr Word32 -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr Word32 -> Ptr Word32 -> IO Int32
 getDocumentation2TL :: INT
                     -> LCID
                     -> ITypeLib2 a0
@@ -2849,7 +2849,7 @@ requestTypeChange changeKind pTInfoBefore pStrName iptr =
     freeWideString pStrName
     doThenFree free readInt32 pfCancel
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_requestTypeChange :: Ptr () -> Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> Ptr Int32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_requestTypeChange :: Ptr (Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> Ptr Int32 -> IO Int32) -> Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> Ptr Int32 -> IO Int32
 afterTypeChange :: CHANGEKIND
                 -> ITypeInfo a1
                 -> LPOLESTR
@@ -2863,5 +2863,5 @@ afterTypeChange changeKind pTInfoAfter pStrName iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr pTInfoAfter (\ pTInfoAfter -> prim_System_Win32_Com_Automation_TypeLib_afterTypeChange methPtr iptr changeKind pTInfoAfter pStrName)) 4 iptr
     freeWideString pStrName
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_afterTypeChange :: Ptr () -> Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_TypeLib_afterTypeChange :: Ptr (Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> IO Int32) -> Ptr () -> Int32 -> Ptr (ITypeInfo a) -> Ptr WideString -> IO Int32
 

@@ -87,7 +87,7 @@ getConnectionInterface iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_Connection_getConnectionInterface methPtr iptr piid) 3 iptr
     unmarshallIID True piid
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionInterface :: Ptr () -> Ptr () -> Ptr (IID a) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionInterface :: Ptr (Ptr () -> Ptr (IID a) -> IO Int32) -> Ptr () -> Ptr (IID a) -> IO Int32
 getConnectionPointContainer :: IConnectionPoint a0
                             -> IO (IConnectionPointContainer ())
 getConnectionPointContainer iptr =
@@ -96,7 +96,7 @@ getConnectionPointContainer iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_Connection_getConnectionPointContainer methPtr iptr ppCPC) 4 iptr
     doThenFree free (readIUnknown False) ppCPC
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionPointContainer :: Ptr () -> Ptr () -> Ptr (Ptr (IConnectionPointContainer a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionPointContainer :: Ptr (Ptr () -> Ptr (Ptr (IConnectionPointContainer a)) -> IO Int32) -> Ptr () -> Ptr (Ptr (IConnectionPointContainer a)) -> IO Int32
 advise :: IUnknown a1
        -> IConnectionPoint a0
        -> IO DWORD
@@ -107,7 +107,7 @@ advise pUnkSink iptr =
     invokeAndCheck (\ methPtr iptr -> withForeignPtr pUnkSink (\ pUnkSink -> prim_System_Win32_Com_Automation_Connection_advise methPtr iptr pUnkSink pdwCookie)) 5 iptr
     doThenFree free readWord32 pdwCookie
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_advise :: Ptr () -> Ptr () -> Ptr (IUnknown a) -> Ptr Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_advise :: Ptr (Ptr () -> Ptr (IUnknown a) -> Ptr Word32 -> IO Int32) -> Ptr () -> Ptr (IUnknown a) -> Ptr Word32 -> IO Int32
 unadvise :: DWORD
          -> IConnectionPoint a0
          -> IO ()
@@ -116,7 +116,7 @@ unadvise dwCookie iptr =
                  6
                  iptr
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_unadvise :: Ptr () -> Ptr () -> Word32 -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_unadvise :: Ptr (Ptr () -> Word32 -> IO Int32) -> Ptr () -> Word32 -> IO Int32
 enumConnections :: IConnectionPoint a0
                 -> IO (IEnumConnections ())
 enumConnections iptr =
@@ -125,7 +125,7 @@ enumConnections iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_Connection_enumConnections methPtr iptr ppEnum) 7 iptr
     doThenFree free (readIUnknown False) ppEnum
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_enumConnections :: Ptr () -> Ptr () -> Ptr (Ptr (IEnumConnections a)) -> IO Int32
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_enumConnections :: Ptr (Ptr () -> Ptr (Ptr (IEnumConnections a)) -> IO Int32) -> Ptr () -> Ptr (Ptr (IEnumConnections a)) -> IO Int32
 -- --------------------------------------------------
 -- 
 -- interface IConnectionPointContainer

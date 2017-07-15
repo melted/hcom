@@ -57,7 +57,7 @@ mkEnumInterface ls sizeof write = do
   m_enumSkip  <- export_enumSkip  (enumSkip st)
   m_enumReset <- export_enumReset (enumReset st)
   m_enumClone <- export_enumClone (enumClone st)
-  createComVTable [m_enumNext, m_enumSkip, m_enumReset, m_enumClone]
+  createComVTable [castPtr m_enumNext, castPtr m_enumSkip, castPtr m_enumReset, castPtr m_enumClone]
 
 {-
 An IEnum* interface allows you to iterate over a sequence *once*,

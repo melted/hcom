@@ -93,4 +93,4 @@ iClassFactory_vtbl :: VTable (IClassFactory ()) (ClassFactory ())
 iClassFactory_vtbl = unsafePerformIO $ do
    addrOf_cI <- export_createInstance createInstance
    addrOf_lS <- export_lockServer     lockServer
-   createComVTable [addrOf_cI, addrOf_lS]
+   createComVTable [castPtr addrOf_cI, castPtr addrOf_lS]

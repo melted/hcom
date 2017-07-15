@@ -100,11 +100,7 @@ createStdDispatchVTBL meths fun = do
   a_getIDsOfNames    <- export_getIDsOfNames	(getIDsOfNames meths)
   a_invoke	     <- export_invoke		(invoke fun)
   createComVTable 
-           [ a_getTypeInfoCount
-	   , a_getTypeInfo
-	   , a_getIDsOfNames
-	   , a_invoke
-	   ]
+           [castPtr a_getTypeInfoCount, castPtr a_getTypeInfo, castPtr a_getIDsOfNames, castPtra_invoke]
 
 {-
 evDisp = 

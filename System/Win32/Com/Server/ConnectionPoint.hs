@@ -54,7 +54,7 @@ mkConnectionContainer ls = fixIO $ \ ip -> do
   let ils = unsafePerformIO (mapM (mkConnection ip) ls)
   addrOf_eCP <- export_enumCP (enumConnectionPoints (map snd ils))
   addrOf_fCP <- export_fCP    (findConnectionPoint ils)
-  vtbl       <- createComVTable [ addrOf_eCP, addrOf_fCP ]
+  vtbl       <- createComVTable [ castPtr addrOf_eCP, castPtr addrOf_fCP ]
   createComInstance "" () (return ())
                     [mkIface iidIConnectionPointContainer vtbl]
 		    iidIConnectionPointContainer

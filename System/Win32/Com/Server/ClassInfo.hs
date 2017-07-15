@@ -54,7 +54,7 @@ mkIProvideClassInfo2 libid clsid iid = do
   let mb_tlib = unsafePerformIO (hoistInTLB libid)
   addrOf_gci <- export_gci (getClassInfo mb_tlib clsid)
   addrOf_gg  <- export_gg  (getGUID iid)
-  createComVTable [addrOf_gci, addrOf_gg]
+  createComVTable [castPtr addrOf_gci, castPtr addrOf_gg]
 
 
 hoistInTLB :: Either LIBID String

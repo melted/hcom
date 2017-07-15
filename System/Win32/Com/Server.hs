@@ -650,8 +650,7 @@ invokeTI ip dispIdMember wFlags pDispParams pVarResult pExcepInfo puArgErr this 
     prim_invokeTI methPtr (castPtr this) iptr dispIdMember wFlags pDispParams pVarResult pExcepInfo puArgErr
 
 foreign import stdcall "dynamic"
-  prim_invokeTI :: Ptr (Ptr () -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT)
-                     -> Ptr () -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT
+  prim_invokeTI :: Ptr (Ptr () -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT) -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT
 
 getTypeInfoOfGuid :: IID iid -> Ptr (PrimIP (ITypeInfo ())) -> IUnknown a -> IO HRESULT
 getTypeInfoOfGuid iid ppITI this = do
