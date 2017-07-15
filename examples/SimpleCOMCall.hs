@@ -1,6 +1,7 @@
 
 module Main where
 
+import Data.Maybe
 
 import Foreign.Ptr
 import Foreign.C.String
@@ -15,9 +16,9 @@ main :: IO ()
 main = coRun $ do
         i <- coCreateInstance clsidUserNotification2 
                     Nothing CLSCTX_INPROC_SERVER iidUserNotification2
-        setBalloonInfo i "Hello" "Hello" 3
-        l <-getLine
-        putStrLn l
+        _ <- setBalloonInfo i "Hello from hcom" "Hello" 3
+        hr <- showBalloon i nullPtr 10000 nullPtr
+        if hr == s_OK then putStrLn "OK!" else putStrLn "BOO!"
 
         
 -- The User notification interface
@@ -36,4 +37,10 @@ setBalloonInfo iptr title text flags = do
     invokeIt (\meth ip -> prim_setBalloonInfo meth ip titleWStr textWStr flags) 3 iptr
 
 
+showBalloon :: IUnknown (IUserNotification2 a) -> Ptr () -> DWORD -> Ptr () -> IO HRESULT
+showBalloon iptr iqcont interval cb = do
+    invokeIt (\meth ip -> prim_showBalloon meth ip iqcont interval cb) 6 iptr
+
 foreign import stdcall "dynamic" prim_setBalloonInfo :: Ptr (Ptr() -> Ptr CWchar -> Ptr CWchar -> DWORD -> IO HRESULT) -> Ptr () -> Ptr CWchar -> Ptr CWchar -> DWORD -> IO HRESULT
+
+foreign import stdcall "dynamic" prim_showBalloon :: Ptr (Ptr () -> Ptr () -> DWORD -> Ptr() -> IO HRESULT) -> Ptr () -> Ptr () -> DWORD -> Ptr () -> IO HRESULT
