@@ -1,0 +1,22 @@
+Version 1.2.3 - released 2009-01-27; changes from 1.2.2
+
+  * Improved and expanded Haddock comments throughout.
+  * Fixed allocator mismatch bug in Com.Base.getModuleFileName
+
+Version 1.2.2 - released 2009-01-27; changes from 1.2.1
+
+  * built-in enumeration handling of variants (via the
+    IEnumVariant interface) was buggy and stale. 
+
+  * Fixed Integer unmarshalling for Variants; used to
+    go via CURRENCY, now Int64.
+  
+  * Only buildable on Windows platforms.
+
+Version 1.2.1 - released 2009-01-19; changes from 1.2.0
+
+  * fix bad mix of allocators, the accidental introduction of the
+    combined use of the CRT one (malloc()) and the COM task allocaotr
+    led to spurious MM crashes.
+  * drop 'haskell98' dependencies
+
