@@ -1,5 +1,5 @@
-Name: com
-version: 1.2.3.1
+Name: hcom
+version: 0.0.0.1
 Synopsis: Haskell COM support library
 Description: 
    Supporting for writing COM\/Automation clients in Haskell, and for
@@ -8,7 +8,7 @@ Description:
    Some examples of how to use the package can be found at <http://haskell.forkio.com/com-examples>
 Cabal-version: >= 1.2
 build-type: Simple
-Maintainer: Sigbjorn Finne <sigbjorn.finne@gmail.com>
+Maintainer: Niklas Larsson <niklas@mm.st>
 License: BSD3
 License-file: LICENSE
 Category: FFI

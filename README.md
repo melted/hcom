@@ -1,0 +1,1 @@
+This in an updated COM library for Haskell.
