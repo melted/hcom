@@ -54,7 +54,7 @@ import Prelude
 import Data.Int (Int32)
 import Data.Word (Word32)
 import Foreign.ForeignPtr (withForeignPtr)
-import Foreign.Ptr (Ptr, FunPtr, castPtrToFunPtr)
+import Foreign.Ptr (Ptr)
 import System.Win32.Com (IUnknown, IID, mkIID, sizeofIID, 
                          invokeAndCheck, unmarshallIID, readIUnknown, marshallIUnknown, 
                          marshallIID, writeIUnknown, enumNext, enumSkip, enumReset, 
@@ -87,8 +87,7 @@ getConnectionInterface iptr =
     invokeAndCheck (\ methPtr iptr -> prim_System_Win32_Com_Automation_Connection_getConnectionInterface methPtr iptr piid) 3 iptr
     unmarshallIID True piid
 
-foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionInterface
-       :: Ptr (Ptr () -> Ptr () -> Ptr (IID a) -> IO Int32) -> (Ptr () -> Ptr () -> Ptr (IID a) -> IO Int32)
+foreign import stdcall "dynamic" prim_System_Win32_Com_Automation_Connection_getConnectionInterface :: Ptr () -> Ptr () -> Ptr (IID a) -> IO Int32
 getConnectionPointContainer :: IConnectionPoint a0
                             -> IO (IConnectionPointContainer ())
 getConnectionPointContainer iptr =

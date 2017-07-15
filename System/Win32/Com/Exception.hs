@@ -1,4 +1,4 @@
-{-# OPTIONS -XCPP -#include "comPrim.h" #-}
+{-# OPTIONS -XCPP #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.Exception

@@ -1,4 +1,3 @@
-{-# OPTIONS -#include "autoPrim.h" #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.Automation

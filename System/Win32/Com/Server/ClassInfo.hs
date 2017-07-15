@@ -43,7 +43,7 @@ mkIProvideClassInfo :: Either LIBID String
 		    -> IO (ComVTable (IProvideClassInfo ()) objState)
 mkIProvideClassInfo libid clsid = do
   let mb_tlib = unsafePerformIO (hoistInTLB libid)
-  addrOf_gci <- export_gci (getClassInfo mb_tlib clsid)
+  addrOf_gci <- castFunPtrToPtr export_gci (getClassInfo mb_tlib clsid)
   createComVTable [addrOf_gci]
 
 mkIProvideClassInfo2 :: Either LIBID String
@@ -86,7 +86,7 @@ getClassInfo mb_tlib clsid this ppTI
 	      return e_FAIL)
 
 foreign import stdcall "wrapper" 
-   export_gci :: (Ptr () -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT) -> IO (Ptr ())
+   export_gci :: (Ptr () -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT) -> IO (Ptr (Ptr () -> Ptr (Ptr (ITypeInfo ())) -> IO HRESULT))
 
 getGUID :: IID a
 	-> ThisPtr
@@ -101,4 +101,4 @@ getGUID iid this kind pGUID
      return s_OK
 
 foreign import stdcall "wrapper"
-   export_gg :: (Ptr () -> Word32 -> Ptr (GUID) -> IO HRESULT) -> IO (Ptr ())
+   export_gg :: (Ptr () -> Word32 -> Ptr (GUID) -> IO HRESULT) -> IO (Ptr (Ptr () -> Word32 -> Ptr (GUID) -> IO HRESULT))

@@ -94,7 +94,7 @@ getConnectionInterface iid _ piid
      return s_OK
 
 foreign import stdcall "wrapper"
-    export_gi :: (ThisPtr -> Ptr GUID -> IO HRESULT) -> IO (Ptr ())
+    export_gi :: (ThisPtr -> Ptr GUID -> IO HRESULT) -> IO (Ptr (ThisPtr -> Ptr GUID -> IO HRESULT))
 
 getConnectionPointContainer :: IConnectionPointContainer ()
                             -> ThisPtr
@@ -105,7 +105,8 @@ getConnectionPointContainer ip _ pip = do
    return s_OK
 
 foreign import stdcall "wrapper"
-    export_gcpc :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+    export_gcpc :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT)
+     -> IO (Ptr (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT))
 
 advise :: IORef [(Word32,IUnknown ())]
        -> IORef Word32
@@ -130,7 +131,8 @@ advise sinks cookie_ref iid this pUnkSink pdwCookie = do
    )(\ _ -> return cONNECT_E_CANNOTCONNECT)
 
 foreign import stdcall "wrapper"
-   export_adv :: (ThisPtr -> PrimIP () -> Ptr Word32 -> IO HRESULT) -> IO (Ptr ())
+   export_adv :: (ThisPtr -> PrimIP () -> Ptr Word32 -> IO HRESULT)
+                   -> IO (Ptr (ThisPtr -> PrimIP () -> Ptr Word32 -> IO HRESULT))
 
 unadvise :: IORef [(Word32,IUnknown ())]
          -> ThisPtr
@@ -147,7 +149,7 @@ unadvise sinks this dwCookie = do
        return s_OK
 
 foreign import stdcall "wrapper"
-    export_unadv :: (ThisPtr -> Word32 -> IO HRESULT) -> IO (Ptr ())
+    export_unadv :: (ThisPtr -> Word32 -> IO HRESULT) -> IO (Ptr (ThisPtr -> Word32 -> IO HRESULT))
 
 enumConnections :: IORef [(Word32,IUnknown ())]
                 -> ThisPtr
@@ -165,7 +167,7 @@ enumConnections sinks this ppCP
     return s_OK
 
 foreign import stdcall "wrapper"
-    export_enumCP :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+    export_enumCP :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT))
 
 enumConnectionPoints :: [IConnectionPoint ()]
                      -> ThisPtr
@@ -182,7 +184,7 @@ enumConnectionPoints ls this ppEnum
      return s_OK
 
 foreign import stdcall "wrapper"
-    export_eCP :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+    export_eCP :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT))
 
 findConnectionPoint :: [(IID (IUnknown ()), IConnectionPoint ())]
 		    -> ThisPtr
@@ -203,7 +205,7 @@ findConnectionPoint ls this riid ppCP
 	  return s_OK
 
 foreign import stdcall "wrapper"
-    export_fCP :: (ThisPtr -> Ptr GUID -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+    export_fCP :: (ThisPtr -> Ptr GUID -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr (ThisPtr -> Ptr GUID -> Ptr (Ptr (IUnknown b)))
 
 cONNECT_E_NOCONNECTION :: HRESULT
 cONNECT_E_NOCONNECTION = 0x80040200

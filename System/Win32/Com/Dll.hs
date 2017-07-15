@@ -1,4 +1,3 @@
-{-# OPTIONS -#include "System/Win32/Com/Dll_stub.h" -#include <windows.h> -#include "Registry.h" #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.Dll
@@ -243,12 +242,13 @@ iComDllEntryPoints state = do
 	 ]
 
 foreign import ccall "wrapper"
-   export_DllUnload :: (IO ()) -> IO (Ptr ())
+   export_DllUnload :: IO () -> IO (Ptr (IO ()))
 foreign import ccall "wrapper"
-   export_nullaryMeth :: (IO HRESULT) -> IO (Ptr ())
+   export_nullaryMeth :: IO HRESULT -> IO (Ptr (IO HRESULT))
 
 foreign import ccall "wrapper"
-   export_dllGetClassObject :: (Ptr CLSID -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO HRESULT) -> IO (Ptr ())
+   export_dllGetClassObject :: (Ptr CLSID -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO HRESULT)
+                                 -> IO (Ptr (Ptr CLSID -> Ptr (IID a) -> Ptr (Ptr (IUnknown a)) -> IO HRESULT))
 
 data RegHive
  = HKEY_CLASSES_ROOT

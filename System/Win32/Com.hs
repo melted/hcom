@@ -1,4 +1,3 @@
-{-# OPTIONS -#include "comPrim.h" -#include "PointerSrc.h" #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com

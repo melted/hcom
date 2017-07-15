@@ -99,7 +99,8 @@ enumNext st this c pFetched pcFetched
        fillIn ptr' (n-1) xs
 
 foreign import stdcall "wrapper"
-   export_enumNext :: (ThisPtr -> Word32 -> Ptr a -> Ptr Word32 -> IO HRESULT) -> IO (Ptr ())
+   export_enumNext :: (ThisPtr -> Word32 -> Ptr a -> Ptr Word32 -> IO HRESULT)
+                       -> IO (Ptr (ThisPtr -> Word32 -> Ptr a -> Ptr Word32 -> IO HRESULT))
 
 enumSkip :: EnumState a
 	 -> ThisPtr
@@ -122,7 +123,7 @@ enumSkip st this c
      return hr
 
 foreign import stdcall "wrapper"
-   export_enumSkip :: (ThisPtr -> Word32 -> IO HRESULT) -> IO (Ptr ())
+   export_enumSkip :: (ThisPtr -> Word32 -> IO HRESULT) -> IO (Ptr (ThisPtr -> Word32 -> IO HRESULT))
 
 enumReset :: EnumState a
 	  -> ThisPtr
@@ -133,7 +134,7 @@ enumReset st _ = do
   return s_OK
 
 foreign import stdcall "wrapper"
-   export_enumReset :: (ThisPtr -> IO HRESULT) -> IO (Ptr ())
+   export_enumReset :: (ThisPtr -> IO HRESULT) -> IO (Ptr (ThisPtr -> IO HRESULT))
 
 enumClone :: EnumState a
 	  -> ThisPtr
@@ -146,4 +147,5 @@ enumClone st this out = do
    return s_OK
 
 foreign import stdcall "wrapper"
-   export_enumClone :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+   export_enumClone :: (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT)
+    -> IO (Ptr (ThisPtr -> Ptr (Ptr (IUnknown b)) -> IO HRESULT))

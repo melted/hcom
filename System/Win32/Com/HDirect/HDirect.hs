@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XCPP -#include "PointerSrc.h" #-}
+{-# OPTIONS_GHC -XCPP #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.HDirect.HDirect
@@ -14,31 +14,14 @@
 -- 
 -----------------------------------------------------------------------------
 module System.Win32.Com.HDirect.HDirect 
-    (
-      module System.Win32.Com.HDirect.HDirect
+    (module System.Win32.Com.HDirect.HDirect
+    , Int8, Int16, Int32, Int64
+    , Word8, Word16, Word32, Word64
 
-    , Int8
-    , Int16
-    , Int32
-    , Int64
-
-    , Word8
-    , Word16
-    , Word32
-    , Word64
-
-    , Char
-    , Double
-    , Float
-    , Bool
+    , Char, Double, Float, Bool
     
-    , Ptr
-
-    , StablePtr
-    , deRefStablePtr
-    , free
-    
-    ) where
+    , Ptr, StablePtr
+    , deRefStablePtr) where
 
 import Data.Char
 import Data.Int  ( Int8, Int16, Int32, Int64 )

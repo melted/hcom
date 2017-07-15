@@ -1,5 +1,3 @@
-{-# OPTIONS -#include "System/Win32/Com/Server_stub.h" #-}
-{-# OPTIONS -#include "comPrim.h" #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.Server
@@ -343,9 +341,11 @@ release iptr = do
       return x
 
 --
-foreign import stdcall "wrapper" export_queryInterface :: (Ptr (IUnknown a) -> Ptr GUID -> Ptr (Ptr (IUnknown b)) -> IO Int32) -> IO (Ptr ())
-foreign import stdcall "wrapper" export_addRef  :: (Ptr (IUnknown a) -> IO Word32) -> IO (Ptr ())
-foreign import stdcall "wrapper" export_release :: (Ptr (IUnknown a) -> IO Word32) -> IO (Ptr ())
+foreign import stdcall "wrapper" export_queryInterface ::
+              (Ptr (IUnknown a) -> Ptr GUID -> Ptr (Ptr (IUnknown b)) -> IO Int32)
+                -> IO (Ptr (Ptr (IUnknown a) -> Ptr GUID -> Ptr (Ptr (IUnknown b)) ->IO Int32))
+foreign import stdcall "wrapper" export_addRef  :: (Ptr (IUnknown a) -> IO Word32) -> IO (Ptr (Ptr (IUnknown a) -> IO Word32))
+foreign import stdcall "wrapper" export_release :: (Ptr (IUnknown a) -> IO Word32) -> IO (Ptr (Ptr (IUnknown a) -> IO Word32))
 
 releaseObj :: Ptr (IUnknown a) -> IO ()
 releaseObj iptr = do
@@ -476,10 +476,10 @@ createDispVTable meths disp_st = do
   a_getTypeInfo	     <- export_getTypeInfo      (getTypeInfo disp_st)
   a_getIDsOfNames    <- export_getIDsOfNames	(getIDsOfNames disp_st)
   a_invoke	     <- export_invoke		(invoke disp_st)
-  createComVTable ([ a_getTypeInfoCount
-		   , a_getTypeInfo
-		   , a_getIDsOfNames
-		   , a_invoke
+  createComVTable ([ castPtr a_getTypeInfoCount
+		   , castPtr a_getTypeInfo
+		   , castPtr a_getIDsOfNames
+		   , castPtr a_invoke
 		   ] ++ meths)
 
 getTypeInfoCount :: Ptr () -> Ptr Word32 -> IO HRESULT
@@ -489,7 +489,7 @@ getTypeInfoCount iptr pctInfo = do
   return s_OK
 
 foreign import stdcall "wrapper" export_getTypeInfoCount
-	    :: (Ptr () -> Ptr Word32 -> IO HRESULT) -> IO (Ptr ())
+	    :: (Ptr () -> Ptr Word32 -> IO HRESULT) -> IO (Ptr (Ptr () -> Ptr Word32 -> IO HRESULT))
 
 getTypeInfo :: DispState -> Ptr (IDispatch ()) -> Word32 -> LCID -> Ptr () -> IO HRESULT
 getTypeInfo disp_state this iTInfo lcid ppTInfo
@@ -569,7 +569,8 @@ foreign import ccall "primLoadRegTypeLib"
   primLoadRegTypeLib :: Ptr () -> Word16 -> Word16 -> Word32 -> Ptr () -> IO HRESULT
 
 foreign import stdcall "wrapper" export_getTypeInfo
-	    :: (Ptr (IDispatch ()) -> Word32 -> LCID -> Ptr () -> IO HRESULT) -> IO (Ptr ())
+      :: (Ptr (IDispatch ()) -> Word32 -> LCID -> Ptr () -> IO HRESULT)
+           -> IO (Ptr (Ptr (IDispatch ()) -> Word32 -> LCID -> Ptr () -> IO HRESULT))
 
 getIDsOfNames :: DispState
 	      -> Ptr (IDispatch ())
@@ -594,7 +595,8 @@ getIDsOfNames disp_state this riid rgszNames cNames lcid rgDispID = do
        return hr
 
 foreign import stdcall "wrapper" export_getIDsOfNames
-	    :: (Ptr (IDispatch ()) -> Ptr (IID ()) -> Ptr WideString -> Word32 -> LCID -> Ptr DISPID -> IO HRESULT) -> IO (Ptr ())
+      :: (Ptr (IDispatch ()) -> Ptr (IID ()) -> Ptr WideString -> Word32 -> LCID -> Ptr DISPID -> IO HRESULT)
+           -> IO (Ptr (Ptr (IDispatch ()) -> Ptr (IID ()) -> Ptr WideString -> Word32 -> LCID -> Ptr DISPID -> IO HRESULT))
 
 invoke :: DispState
        -> Ptr (IDispatch ())
@@ -648,8 +650,8 @@ invokeTI ip dispIdMember wFlags pDispParams pVarResult pExcepInfo puArgErr this 
     prim_invokeTI methPtr (castPtr this) iptr dispIdMember wFlags pDispParams pVarResult pExcepInfo puArgErr
 
 foreign import stdcall "dynamic"
-  prim_invokeTI :: Ptr (ITypeInfo a) -> Ptr () -> Ptr () -> DISPID -> Word32 
-                -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT
+  prim_invokeTI :: Ptr (Ptr () -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT)
+                     -> Ptr () -> Ptr () -> DISPID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT
 
 getTypeInfoOfGuid :: IID iid -> Ptr (PrimIP (ITypeInfo ())) -> IUnknown a -> IO HRESULT
 getTypeInfoOfGuid iid ppITI this = do
@@ -664,18 +666,19 @@ getTypeInfoOfGuid iid ppITI this = do
     prim_getTypeInfoOfGuid methPtr pthis piid ppITI
 
 foreign import stdcall "dynamic"
-  prim_getTypeInfoOfGuid :: Ptr () -> Ptr (Ptr a)
-  			 -> Ptr (IID iid) -> Ptr (PrimIP (ITypeInfo ())) -> IO HRESULT
+  prim_getTypeInfoOfGuid :: Ptr (Ptr (Ptr a) -> Ptr (IID iid) -> Ptr (PrimIP (ITypeInfo ())) -> IO HRESULT) 
+                              -> Ptr (Ptr a) -> Ptr (IID iid) -> Ptr (PrimIP (ITypeInfo ())) -> IO HRESULT
 
 getIDsOfNamesTI :: Ptr WideString -> Word32 -> Ptr DISPID -> Ptr (ITypeInfo ()) -> IO HRESULT
 getIDsOfNamesTI rgszNames cNames rgDispID this = do
-  let offset = (10::Int)
+  let offset = 10::Int
   lpVtbl  <- peek (castPtr this)
   methPtr <- indexPtr lpVtbl offset
   prim_getIDsOfNamesTI methPtr (castPtr this) rgszNames cNames rgDispID
 
 foreign import stdcall "dynamic"
-  prim_getIDsOfNamesTI :: Ptr (ITypeInfo ()) -> Ptr () -> Ptr WideString -> Word32 -> Ptr DISPID -> IO HRESULT
+  prim_getIDsOfNamesTI :: Ptr(Ptr () -> Ptr WideString -> Word32 -> Ptr DISPID -> IO HRESULT)
+                           -> Ptr () -> Ptr WideString -> Word32 -> Ptr DISPID -> IO HRESULT
 
 clearException :: IO ()
 clearException = return ()
@@ -687,8 +690,8 @@ fillException _ _ = return ()
 	      
 
 foreign import stdcall "wrapper" export_invoke
-   :: (Ptr (IDispatch ()) -> DISPID -> Ptr (IID a) -> LCID -> Word32 -> Ptr DISPPARAMS
-   -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT) -> IO (Ptr ())
+   :: (Ptr (IDispatch ()) -> DISPID -> Ptr (IID a) -> LCID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT)
+         -> IO (Ptr (Ptr (IDispatch ()) -> DISPID -> Ptr (IID a) -> LCID -> Word32 -> Ptr DISPPARAMS -> Ptr VARIANT -> Ptr EXCEPINFO -> Ptr Word32 -> IO HRESULT))
 
 data TypeInfo  a = TypeInfo__
 type ITypeInfo a = IUnknown (TypeInfo a)
@@ -718,4 +721,4 @@ createComVTable methods = do
   m_queryInterface <- export_queryInterface queryInterface
   m_addRef         <- export_addRef  addRef
   m_release        <- export_release release
-  createVTable (m_queryInterface: m_addRef: m_release: methods)
+  createVTable (castPtr m_queryInterface: castPtr m_addRef: castPtr m_release: methods)

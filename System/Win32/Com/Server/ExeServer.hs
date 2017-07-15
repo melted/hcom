@@ -1,4 +1,3 @@
-{-# OPTIONS -#include "comPrim.h" #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  System.Win32.Com.Server.ExeServer

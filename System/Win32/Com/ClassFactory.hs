@@ -70,10 +70,12 @@ lockServer this ilock = do
     | otherwise  = True
 
 foreign import stdcall "wrapper"
-   export_createInstance :: (This_ClassFactory -> Ptr (IUnknown a) -> Ptr (IID (IUnknown ())) -> Ptr (Ptr (IUnknown b)) -> IO HRESULT) -> IO (Ptr ())
+   export_createInstance :: (This_ClassFactory -> Ptr (IUnknown a) -> Ptr (IID (IUnknown ())) -> Ptr (Ptr (IUnknown b)) -> IO HRESULT)
+                             -> IO (Ptr (This_ClassFactory -> Ptr (IUnknown a) -> Ptr (IID (IUnknown ())) -> Ptr (Ptr (IUnknown b)) -> IO HRESULT))
 
 foreign import stdcall "wrapper"
-   export_lockServer :: (Ptr (IUnknown a) -> Int -> IO HRESULT) -> IO (Ptr ())
+   export_lockServer :: (Ptr (IUnknown a) -> Int -> IO HRESULT)
+                         -> IO (Ptr (Ptr (IUnknown a) -> Int -> IO HRESULT))
 
 createClassFactory :: (IID (IUnknown ()) -> IO (IUnknown ()))
 		   -> IO (IClassFactory ())
