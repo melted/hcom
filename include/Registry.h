@@ -1,13 +1,9 @@
 #ifndef __REGISTRY_H__
 #define __REGISTRY_H__
 
-extern
-HRESULT
-primRegAddEntry ( int hive, const char* path, const char* val);
+extern HRESULT primRegAddEntry(int hive, const char *path, const char *val);
 
-extern
-HRESULT
-primRegRemoveEntry ( int hive, const char* path, const char* val, int kind);
+extern HRESULT primRegRemoveEntry(int hive, const char *path, const char *val, int kind);
 
 #if 0
 extern
@@ -29,6 +25,5 @@ UnregisterServer
 	       );
 
 #endif
-
 
 #endif

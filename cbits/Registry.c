@@ -1,90 +1,95 @@
 /*
   Misc helper functions for accessing the registry.
 */
-#include <windows.h>
+#include "comPrim.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "comPrim.h"
+#include <windows.h>
 
 #if __CYGWIN32__
-int wcslen(WCHAR* wstr)
+int wcslen(WCHAR *wstr)
 {
-  return WideCharToMultiByte(CP_ACP, WC_DEFAULTCHAR, wstr, (-1), NULL, 0, NULL, NULL);
+    return WideCharToMultiByte(CP_ACP, WC_DEFAULTCHAR, wstr, (-1), NULL, 0, NULL, NULL);
 }
 #endif
 
-/* 
+/*
  RegAddEntry() adds a key + string value at
 
       HKEY_CLASSES_ROOT\path\subKey1\subKey2
 
 */
 HRESULT
-RegAddEntry(int hive,
-	    const char* path,
-            const char* subKey1,
-            const char* subKey2,
-            const char* value)
+RegAddEntry(int hive, const char *path, const char *subKey1, const char *subKey2, const char *value)
 {
-   HKEY hKey;
-   char keyBuffer[1024]; /* Sigh! */
-   long result;
-   HANDLE the_hive;
+    HKEY hKey;
+    char keyBuffer[1024]; /* Sigh! */
+    long result;
+    HANDLE the_hive;
 
-   switch(hive) {
-    case 0: the_hive = HKEY_CLASSES_ROOT; break;
-    case 1: the_hive = HKEY_CURRENT_USER; break;
-    case 2: the_hive = HKEY_LOCAL_MACHINE; break;
-    case 3: the_hive = HKEY_USERS; break;
-    case 4: the_hive = HKEY_CURRENT_CONFIG; break;
-   default:
-     MessageBox (NULL, "RegAddEntry: weird hive", "RegAddEntry", MB_OK | MB_ICONINFORMATION );
-     return E_FAIL;
-   }
+    switch (hive)
+    {
+    case 0:
+        the_hive = HKEY_CLASSES_ROOT;
+        break;
+    case 1:
+        the_hive = HKEY_CURRENT_USER;
+        break;
+    case 2:
+        the_hive = HKEY_LOCAL_MACHINE;
+        break;
+    case 3:
+        the_hive = HKEY_USERS;
+        break;
+    case 4:
+        the_hive = HKEY_CURRENT_CONFIG;
+        break;
+    default:
+        MessageBox(NULL, "RegAddEntry: weird hive", "RegAddEntry", MB_OK | MB_ICONINFORMATION);
+        return E_FAIL;
+    }
 
-   /* construct complete path in buffer. */
-   strcpy(keyBuffer, path) ;
-   if (subKey1 != NULL) {
-	strcat(keyBuffer, "\\") ;
-	strcat(keyBuffer, subKey1 ) ;
-   }
+    /* construct complete path in buffer. */
+    strcpy(keyBuffer, path);
+    if (subKey1 != NULL)
+    {
+        strcat(keyBuffer, "\\");
+        strcat(keyBuffer, subKey1);
+    }
 
-   if (subKey2 != NULL) {
-	strcat(keyBuffer, "\\") ;
-	strcat(keyBuffer, subKey2 ) ;
-   }
+    if (subKey2 != NULL)
+    {
+        strcat(keyBuffer, "\\");
+        strcat(keyBuffer, subKey2);
+    }
 
-   /* Create and open key and subkey. */
-   result = RegCreateKeyEx(the_hive,
-	                   keyBuffer, 
-	                   0, NULL, REG_OPTION_NON_VOLATILE,
-	                   KEY_ALL_ACCESS, NULL, 
-	                   &hKey, NULL) ;
-   if (result != ERROR_SUCCESS) {
-	return S_FALSE;
-   }
+    /* Create and open key and subkey. */
+    result = RegCreateKeyEx(the_hive, keyBuffer, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+    if (result != ERROR_SUCCESS)
+    {
+        return S_FALSE;
+    }
 
-   /* Set the value */
-   if (value != NULL) {
-      RegSetValueEx(hKey, NULL, 0, REG_SZ, 
-	            (BYTE *)value, 
-	            strlen(value)+1) ;
-   }
+    /* Set the value */
+    if (value != NULL)
+    {
+        RegSetValueEx(hKey, NULL, 0, REG_SZ, (BYTE *)value, strlen(value) + 1);
+    }
 
-   RegCloseKey(hKey) ;
-   return S_OK;
+    RegCloseKey(hKey);
+    return S_OK;
 }
 
 /* Called by Haskell code */
 HRESULT
-primRegAddEntry ( int hive, const char* path, const char* val)
+primRegAddEntry(int hive, const char *path, const char *val)
 {
- return RegAddEntry( hive, path, NULL, NULL, val);
+    return RegAddEntry(hive, path, NULL, NULL, val);
 }
 
-#define REMOVE_KEY    1
-#define REMOVE_VALUE  0
+#define REMOVE_KEY 1
+#define REMOVE_VALUE 0
 
 /*
  RegRemoveEntry() adds a key + string value at
@@ -92,63 +97,67 @@ primRegAddEntry ( int hive, const char* path, const char* val)
       HKEY_CLASSES_ROOT\path\subKey1\subKey2
 */
 HRESULT
-RegRemoveEntry
-         ( int hive
-	 , const char* path
-         , const char* subKey1
-	 , const char* subKey2
-	 , int deleteKey
-	 )
+RegRemoveEntry(int hive, const char *path, const char *subKey1, const char *subKey2, int deleteKey)
 {
-   HKEY hKey;
-   LONG res;
-   char keyBuffer[1024]; /* Sigh! */
-   HANDLE the_hive;
+    HKEY hKey;
+    LONG res;
+    char keyBuffer[1024]; /* Sigh! */
+    HANDLE the_hive;
 
-   switch(hive) {
-    case 0: the_hive = HKEY_CLASSES_ROOT; break;
-    case 1: the_hive = HKEY_CURRENT_USER; break;
-    case 2: the_hive = HKEY_LOCAL_MACHINE; break;
-    case 3: the_hive = HKEY_USERS; break;
-    case 4: the_hive = HKEY_CURRENT_CONFIG; break;
-   default:
-     MessageBox (NULL, "RegAddEntry: weird hive", "RegAddEntry", MB_OK | MB_ICONINFORMATION );
-     return E_FAIL;
-   }
+    switch (hive)
+    {
+    case 0:
+        the_hive = HKEY_CLASSES_ROOT;
+        break;
+    case 1:
+        the_hive = HKEY_CURRENT_USER;
+        break;
+    case 2:
+        the_hive = HKEY_LOCAL_MACHINE;
+        break;
+    case 3:
+        the_hive = HKEY_USERS;
+        break;
+    case 4:
+        the_hive = HKEY_CURRENT_CONFIG;
+        break;
+    default:
+        MessageBox(NULL, "RegAddEntry: weird hive", "RegAddEntry", MB_OK | MB_ICONINFORMATION);
+        return E_FAIL;
+    }
 
-   /* construct complete path in buffer. */
-   strcpy(keyBuffer, path);
+    /* construct complete path in buffer. */
+    strcpy(keyBuffer, path);
 
-   if (subKey1 != NULL) {
-	strcat(keyBuffer, "\\") ;
-	strcat(keyBuffer, subKey1 ) ;
-   }
+    if (subKey1 != NULL)
+    {
+        strcat(keyBuffer, "\\");
+        strcat(keyBuffer, subKey1);
+    }
 
-   res = RegOpenKeyEx 
-             ( the_hive
-	     , keyBuffer
-	     , 0
-	     , KEY_SET_VALUE
-	     , &hKey
-	     );
-   if ( res != ERROR_SUCCESS ) {
-     MessageBox (NULL, "RegOpenKeyEx() failed", "RegRemoveEntry", MB_OK | MB_ICONINFORMATION );
-     return S_FALSE;
-   }
-   if ( deleteKey ) {
-     res = RegDeleteKey (hKey, subKey2 );
-   } else {
-     res = RegDeleteValue (hKey, subKey2 );
-   }
-   RegCloseKey(hKey) ;
-   return ( res == ERROR_SUCCESS ? S_OK : S_FALSE );
+    res = RegOpenKeyEx(the_hive, keyBuffer, 0, KEY_SET_VALUE, &hKey);
+    if (res != ERROR_SUCCESS)
+    {
+        MessageBox(NULL, "RegOpenKeyEx() failed", "RegRemoveEntry", MB_OK | MB_ICONINFORMATION);
+        return S_FALSE;
+    }
+    if (deleteKey)
+    {
+        res = RegDeleteKey(hKey, subKey2);
+    }
+    else
+    {
+        res = RegDeleteValue(hKey, subKey2);
+    }
+    RegCloseKey(hKey);
+    return (res == ERROR_SUCCESS ? S_OK : S_FALSE);
 }
 
 /* Called by Haskell code */
 HRESULT
-primRegRemoveEntry ( int hive, const char* path, const char* val, int kind)
+primRegRemoveEntry(int hive, const char *path, const char *val, int kind)
 {
- return RegRemoveEntry( hive, path, NULL, val, kind);
+    return RegRemoveEntry(hive, path, NULL, val, kind);
 }
 
 #if 0

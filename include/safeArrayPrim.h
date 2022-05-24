@@ -1,2 +1,2 @@
 
-extern void primSafeArrayDestroy (void* p);
+extern void primSafeArrayDestroy(void *p);
