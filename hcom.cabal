@@ -6,7 +6,7 @@ Description:
    packaging up your Haskell code behind a COM-callable veneer.
    .
    Some examples of how to use the package can be found at <http://haskell.forkio.com/com-examples>
-Cabal-version: >= 1.2
+Cabal-version: >= 1.10
 build-type: Simple
 Maintainer: Niklas Larsson <niklas@mm.st>
 License: BSD3
@@ -28,6 +28,7 @@ Extra-Source-Files: include/PointerSrc.h
 
 library {
 if os(windows)
+ Default-Language: Haskell2010 
  Exposed-Modules: System.Win32.Com,
                  System.Win32.Com.Base,
                  System.Win32.Com.Automation,
@@ -70,7 +71,7 @@ if os(windows)
 
  Extra-libraries: kernel32, user32, ole32, oleaut32, advapi32
  GHC-Options: -fglasgow-exts
- Extensions: CPP
+ Default-Extensions: CPP
 
  Build-depends: old-time,
                 base >= 4,
