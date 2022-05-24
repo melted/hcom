@@ -1634,13 +1634,13 @@ enumVariants ip = do
      (len, ienum) <- newEnum ip
 --     enumNext (fromIntegral sizeofVARIANT) resVariant (fromIntegral len) ienum
      let getByOne ie = do
-         mb <- ie # enumNextOne (fromIntegral sizeofVARIANT) resVariant 
-         case mb of
-            Nothing -> return []
-            Just x -> do
-            -- note: here we have the option of making it on-demand..
-              xs <- getByOne ie
-              return (x:xs)
+            mb <- ie # enumNextOne (fromIntegral sizeofVARIANT) resVariant 
+            case mb of
+                  Nothing -> return []
+                  Just x -> do
+                        -- note: here we have the option of making it on-demand..
+                        xs <- getByOne ie
+                        return (x:xs)
      ls <- getByOne ienum
      return (len, ls)
 

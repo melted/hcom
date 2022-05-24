@@ -591,8 +591,8 @@ unmarshallBSTR bstr
   | len == 0  = return ""
   | otherwise = do
      stackStringLen (4 + fromIntegral len) "" $ \ pstr -> do
-     bstrToStringLen (castPtr bstr) len (castPtr pstr)
-     unmarshallString pstr
+       bstrToStringLen (castPtr bstr) len (castPtr pstr)
+       unmarshallString pstr
  where
    len  = bstrLen (castPtr bstr)
 

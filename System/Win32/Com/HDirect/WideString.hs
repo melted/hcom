@@ -24,10 +24,10 @@ lengthWideString (WideString ws) = unsafePerformIO (lenWideString ws >>= return 
 stackWideString :: String -> (Ptr Wchar_t -> IO a) -> IO a
 stackWideString str wcont = do
     stackString str $ \ len pstr -> do
-    let wlen = wideStringLen pstr
-    stackFrame (sizeofWideString*(wlen+1)) $ \ pwide -> do
-    primStringToWide pstr (fromIntegral len) pwide wlen 
-    wcont pwide
+      let wlen = wideStringLen pstr
+      stackFrame (sizeofWideString*(wlen+1)) $ \ pwide -> do
+        primStringToWide pstr (fromIntegral len) pwide wlen 
+        wcont pwide
 
 mkWideString :: String -> WideString
 mkWideString ls = unsafePerformIO (stringToWide ls)
@@ -56,8 +56,8 @@ stackString :: String -> (Int -> Ptr Char -> IO a) -> IO a
 stackString str pcont = do
    let len = 1 + fromIntegral (length str)
    stackFrame len $ \ ptr -> do
-   writeString False ptr str
-   pcont (fromIntegral len) (castPtr ptr)
+      writeString False ptr str
+      pcont (fromIntegral len) (castPtr ptr)
 
 marshallWideString :: WideString -> IO (Ptr WideString)
 marshallWideString (WideString ptr) = marshallPointer ptr >>= return.castPtr
