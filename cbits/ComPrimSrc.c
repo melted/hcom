@@ -298,7 +298,7 @@ HRESULT primLoadRegTypeLib
 {
   HRESULT hr;
 
-  hr = LoadRegTypeLib(rguid, wMaj, wMin, GetUserDefaultLCID(), (IUnknown**)ppv);
+  hr = LoadRegTypeLib(rguid, wMaj, wMin, GetUserDefaultLCID(), (ITypeLib**)ppv);
   return hr;  
 }
 
@@ -380,7 +380,7 @@ HRESULT primCreateTypeLib ( int i, LPOLESTR fname, void** ppv )
 #ifdef _MSC
   return ( CreateTypeLib2(1/*SYS_WIN32*/, fname, ppv) );
 #else
-  return ( CreateTypeLib(1/*SYS_WIN32*/, fname, ppv) );
+  return ( CreateTypeLib(1/*SYS_WIN32*/, fname, (ICreateTypeLib**) ppv) );
 #endif
 }
 

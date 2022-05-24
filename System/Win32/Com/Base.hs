@@ -13,6 +13,7 @@ import Foreign.ForeignPtr
 import Foreign.Ptr
 import Data.Dynamic
 import Data.Int
+import Data.Typeable
 import Data.Word       ( Word32 )
 import System.IO.Unsafe ( unsafePerformIO )
 import System.Win32.Com.HDirect.WideString ( WideString, marshallWideString, freeWideString,
@@ -20,10 +21,6 @@ import System.Win32.Com.HDirect.WideString ( WideString, marshallWideString, fre
 import System.IO        ( hPutStrLn, stderr )
 
 import Control.Exception
-import Data.Typeable
-#if BASE <=3
-import GHC.IOBase
-#endif
 
 newtype IUnknown_ a  = Unknown  (ForeignPtr ())
 type IUnknown  a  = IUnknown_ a
@@ -66,9 +63,6 @@ data ComException
 comExceptionHR :: ComException -> HRESULT
 comExceptionHR ComException{comException=ComError hr} = hr
 
-comErrorTc = mkTyCon3 "com2" "System.Win32.Com.Base" "ComError"
-
-#if !defined(BASE) || BASE > 3 
 data SomeCOMException = forall e . Exception e => SomeCOMException e 
     deriving Typeable 
 
@@ -91,18 +85,6 @@ throwComException c = throwIO (toException c)
 instance Exception ComException where
   toException   = comToException
   fromException = comFromException
-
-#else
-instance Typeable ComError where
-#if __GLASGOW_HASKELL__ < 604
-   typeOf _ = mkAppTy comErrorTc []
-#else
-   typeOf _ = mkTyConApp comErrorTc []
-#endif
-
-throwComException :: ComException -> IO a
-throwComException c = throwDyn c
-#endif
 
 coFailWithHR :: HRESULT -> String -> IO a
 coFailWithHR hr msg = throwComException ComException{comException=(ComError hr),comExceptionMsg=msg}

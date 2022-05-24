@@ -1,5 +1,5 @@
 Name: hcom
-version: 0.0.0.1
+version: 0.0.0.3
 Synopsis: Haskell COM support library
 Description: 
    Supporting for writing COM\/Automation clients in Haskell, and for
@@ -26,10 +26,6 @@ Extra-Source-Files: include/PointerSrc.h
           ComDllMain.hs
           CHANGES
 
-flag old-base
-  description: Old, monolithic base
-  default: False
-
 library {
 if os(windows)
  Exposed-Modules: System.Win32.Com,
@@ -53,7 +49,7 @@ if os(windows)
                  System.Win32.Com.HDirect.HDirect,
                  System.Win32.Com.HDirect.PointerPrim,
                  System.Win32.Com.HDirect.WideString
-                 
+
  Include-dirs: . cbits include
 
  Includes: include/PointerSrc.h
@@ -73,19 +69,12 @@ if os(windows)
            cbits/SafeArrayPrim.c
 
  Extra-libraries: kernel32, user32, ole32, oleaut32, advapi32
- GHC-Options: -fglasgow-exts -fvia-C 
--- I can't seem to feed this into the 'ld' invocation that creates the
--- relocatable object file.
--- Ld-options: --enable-stdcall-fixup --disable-stdcall-fixup
+ GHC-Options: -fglasgow-exts
  Extensions: CPP
 
- Build-depends: old-time
- if flag(old-base)
-  Build-Depends: base < 4
-  CPP-Options: -DBASE=3
- else
-  Build-Depends: base >= 4
-  CPP-Options: -DBASE=4
+ Build-depends: old-time,
+                base >= 4,
+                Win32
 else
  Buildable: False
 }
