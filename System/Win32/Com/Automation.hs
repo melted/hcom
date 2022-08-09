@@ -138,12 +138,12 @@ module System.Win32.Com.Automation (
       , freeSafeArray
       , readSA
       
-      , clockTimeToDate    -- :: Time.ClockTime  -> IO Date
+      , systemTimeToDate
     ) where
 
 import System.Win32.Com.HDirect.HDirect as HDirect
 import System.IO.Error ( ioeGetErrorString )
-import System.Time     ( ClockTime(..) )
+import Data.Time.Clock.System     ( SystemTime(..) )
 
 import Data.Word ( Word8, Word16, Word32 )
 import Data.Int  ( Int32, Int16, Int8, Int64 )
@@ -823,16 +823,8 @@ resDate               = readVarDouble
 inoutDate b           = (inDate b,resDate)
 outDate               = inoutDate defaultDate
 
---
--- clockTimeToDate relies on a non-standard implementation of Time,
--- i.e., one which exports ClockTime non-abstractly.
--- 
-clockTimeToDate :: ClockTime -> IO Date
-clockTimeToDate (TOD secs _) 
-  | secs > fromIntegral (maxBound :: Int) ||
-    secs < fromIntegral (minBound :: Int) = 
-    ioError (userError "Automation.clockTimeToDate: ClockTime out of range")
-  | otherwise = primClockToDate (fromIntegral secs)
+systemTimeToDate :: SystemTime -> IO Date
+systemTimeToDate (MkSystemTime secs _) = primClockToDate (fromIntegral secs)
 
 --Currency:
 

@@ -1,5 +1,5 @@
 Name: hcom
-version: 0.0.0.4
+version: 0.0.0.5
 Synopsis: Haskell COM support library
 Description: 
    Support for writing COM\/Automation clients in Haskell, and for
@@ -72,11 +72,11 @@ if os(windows)
            cbits/Registry.c
            cbits/SafeArrayPrim.c
 
- Extra-libraries: kernel32, user32, ole32, oleaut32, advapi32
+ -- Extra-libraries: kernel32, user32, ole32, oleaut32, advapi32
  GHC-Options: -fglasgow-exts
  Default-Extensions: CPP
 
- Build-depends: old-time,
+ Build-depends: time,
                 base >= 4,
                 Win32
 else
