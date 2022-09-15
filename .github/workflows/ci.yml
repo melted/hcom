@@ -1,0 +1,47 @@
+name: hcom CI
+
+on:
+  pull_request:
+    branches: *
+  push:
+    branches: [ master ]
+
+jobs:
+  cabal:
+    name: hcom - ghc ${{ matrix.ghc }}
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        cabal: ["3.8.1.0"]
+        ghc:
+          - "8.10.7"
+          - "9.2.4"
+          - "9.4.2"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell/actions/setup@v1.2
+          id: setup-haskell-cabal
+          name: Setup Haskell
+          with:
+            ghc-version: ${{ matrix.ghc }}
+            cabal-version: ${{ matrix.cabal }}
+      - name: Configure
+        run: |
+          cabal configure --enable-tests --enable-benchmarks --enable-documentation --test-show-details=direct --write-ghc-environment-files=always
+      - name: Install dependencies
+        run: |
+          cabal build all --only-dependencies
+
+      - name: Build
+        run: |
+          cabal build all
+
+      - name: Test
+        run: |
+          cabal test all
+
+      - name: Documentation
+        run: |
+          cabal haddock
+        
